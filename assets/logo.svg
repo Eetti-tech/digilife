@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 44" fill="none" role="img" aria-label="DigiLife">
+  <!-- Leaf sprout above the second 'i' -->
+  <path d="M111.5 11.5C111.5 6.5 116.5 3 122 3.5C121.5 9 117.5 12 111.5 11.5Z" fill="#A6E22E"/>
+  <path d="M110.8 11.8C107.5 8.8 104 8.5 101.5 10C103.5 13 107.2 13.5 110.8 11.8Z" fill="#7CB518"/>
+  <!-- DigiLife Typography -->
+  <text x="2" y="34" fill="#101D35" font-family="Manrope, -apple-system, BlinkMacSystemFont, sans-serif" font-size="31" font-weight="800" letter-spacing="-0.035em">DigiL&#305;fe</text>
+</svg>

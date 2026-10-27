@@ -4430,15 +4430,14 @@ textarea {
         if (underShadow) underShadow.style.opacity = '0';
         if (frontShading) frontShading.style.opacity = '0';
         if (backShading) backShading.style.opacity = '0';
+        if (underSheet) underSheet.style.transform = 'none';
         syncChrome(targetIdx);
         return;
       }
 
-      // Plateau: 0 to 0.12 resting flat on baseIndex
-      // Turn zone: 0.12 to 0.88 turning from baseIndex to baseIndex + 1
-      // Settle: 0.88 to 1.0 resting flat on baseIndex + 1
-      const P_START = 0.12;
-      const P_END = 0.88;
+      // Responsive turn zone: 0.06 to 0.94 provides high resolution for delicate slow scrolling
+      const P_START = 0.06;
+      const P_END = 0.94;
 
       let angle = 0;
       let turnProgress = 0;
@@ -4455,6 +4454,7 @@ textarea {
 
         if (currentFrontIndex !== baseIndex) renderFrontSheet(baseIndex);
         if (currentUnderIndex !== Math.min(5, baseIndex + 1)) renderUnderSheet(Math.min(5, baseIndex + 1));
+        if (underSheet) underSheet.style.transform = 'scale(1) translateY(0px)';
       } else if (frac >= P_END) {
         angle = 0;
         turnProgress = 1;
@@ -4464,6 +4464,7 @@ textarea {
 
         if (currentFrontIndex !== baseIndex + 1) renderFrontSheet(baseIndex + 1);
         if (currentUnderIndex !== Math.min(5, baseIndex + 2)) renderUnderSheet(Math.min(5, baseIndex + 2));
+        if (underSheet) underSheet.style.transform = 'scale(1) translateY(0px)';
       } else {
         turnProgress = (frac - P_START) / (P_END - P_START);
         const eased = 0.5 * (1 - Math.cos(Math.PI * turnProgress));
@@ -4475,29 +4476,43 @@ textarea {
         if (currentFrontIndex !== baseIndex) renderFrontSheet(baseIndex);
         if (currentUnderIndex !== baseIndex + 1) renderUnderSheet(baseIndex + 1);
 
-        if (turnProgress > 0.90) {
-          leafOpacity = 1 - ((turnProgress - 0.90) / 0.10);
+        // Tuck behind wire loops smoothly at end of turn
+        if (turnProgress > 0.88) {
+          leafOpacity = Math.max(0, 1 - ((turnProgress - 0.88) / 0.12));
         } else {
           leafOpacity = 1;
         }
+
+        // Layered 3D Depth Reveal on Under Sheet
+        if (underSheet) {
+          const uScale = (0.982 + 0.018 * turnProgress).toFixed(4);
+          const uY = (3.5 * (1 - turnProgress)).toFixed(2);
+          underSheet.style.transform = `scale(${uScale}) translateY(${uY}px)`;
+        }
       }
 
-      flipLeaf.style.transform = `rotateX(${angle}deg)`;
+      // Authentic 3D Paper Peel: rotateX with subtle physical Z-lift
+      const rad = (angle * Math.PI) / 180;
+      const liftY = Math.sin(rad) * -10;
+      const liftZ = Math.sin(rad) * 14;
+      flipLeaf.style.transform = `translateY(${liftY.toFixed(2)}px) translateZ(${liftZ.toFixed(2)}px) rotateX(${angle.toFixed(2)}deg)`;
       flipLeaf.style.opacity = leafOpacity;
 
-      const rad = (angle * Math.PI) / 180;
-      const shadowY = Math.sin(rad) * 36;
-      const shadowBlur = Math.sin(rad) * 55;
-      const shadowAlpha = shadowAmt * 0.40;
-      flipLeaf.style.boxShadow = `0 ${Math.max(18, shadowY)}px ${Math.max(38, shadowBlur)}px rgba(0, 0, 0, ${Math.max(0.22, shadowAlpha)})`;
+      // Realistic 3D Paper Drop Shadow (expands in Z as paper lifts towards viewer)
+      const shadowY = Math.sin(rad) * 32;
+      const shadowBlur = Math.sin(rad) * 50;
+      const shadowAlpha = shadowAmt * 0.42;
+      flipLeaf.style.boxShadow = `0 ${Math.max(14, shadowY)}px ${Math.max(30, shadowBlur)}px rgba(0, 0, 0, ${Math.max(0.18, shadowAlpha)})`;
 
-      if (underShadow) underShadow.style.opacity = (shadowAmt * 0.45).toFixed(3);
+      // Moving Shadow cast onto the Under Sheet
+      if (underShadow) underShadow.style.opacity = (shadowAmt * 0.50).toFixed(3);
 
+      // Ambient Lighting / Shading on Front and Reverse Faces
       if (frontShading) {
-        frontShading.style.opacity = turnProgress < 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.35).toFixed(3) : '0';
+        frontShading.style.opacity = turnProgress < 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.38).toFixed(3) : '0';
       }
       if (backShading) {
-        backShading.style.opacity = turnProgress >= 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.35).toFixed(3) : '0';
+        backShading.style.opacity = turnProgress >= 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.38).toFixed(3) : '0';
       }
 
       flipLeaf.style.pointerEvents = turnProgress > 0.05 && turnProgress < 0.95 ? 'none' : 'auto';
@@ -4505,80 +4520,120 @@ textarea {
       syncChrome(activeIdx);
     }
 
-    // 60FPS Continuous Animation Loop with smooth inertia interpolation (Lerp)
+    // 60FPS Continuous Animation Loop with responsive inertia interpolation
+    let isWheeling = false;
+
     function animationLoop() {
-      const delta = targetVirtualScroll - virtualScroll;
-      if (Math.abs(delta) > 0.0001) {
-        virtualScroll += delta * 0.16;
+      const diff = targetVirtualScroll - virtualScroll;
+      if (Math.abs(diff) > 0.0001) {
+        // Dynamic lerp: higher responsiveness when snapping or fast scrolling (~240-300ms), silky smooth on slow tracking
+        const lerpRate = isWheeling ? 0.22 : 0.28;
+        virtualScroll += diff * lerpRate;
         applyFlipState(virtualScroll);
       }
       animFrameId = requestAnimationFrame(animationLoop);
     }
     animFrameId = requestAnimationFrame(animationLoop);
 
-    // Scroll Animation on Calendar Box (Turns pages 1-by-1 when cursor is over calendar)
-    let isWheelLocked = false;
-    let wheelUnlockTimer = null;
+    // Responsive Slow & Fast Scroll Animation on Calendar Box
+    let snapTimer = null;
 
     calendarContainer.addEventListener('wheel', (e) => {
-      const delta = e.deltaY;
-      if (Math.abs(delta) < 15) return;
+      let delta = e.deltaY;
 
-      // Allow natural page scroll if at boundaries
-      if (virtualScroll <= 0.05 && delta < 0) return;
-      if (virtualScroll >= 4.95 && delta > 0) return;
+      // Normalize line-mode mouse scrolls (Windows standard) & trackpads
+      if (e.deltaMode === 1) delta *= 28;
+      else if (e.deltaMode === 2) delta *= window.innerHeight;
 
-      // Intercept wheel when scrolling over the calendar box to turn pages
+      if (Math.abs(delta) < 4) return;
+
+      // Allow natural page scroll pass-through at edge boundaries
+      if (virtualScroll <= 0.02 && delta < 0) return;
+      if (virtualScroll >= 4.98 && delta > 0) return;
+
+      // Intercept wheel when scrolling over calendar box
       e.preventDefault();
+      isWheeling = true;
 
-      if (isWheelLocked) return;
-      isWheelLocked = true;
-      clearTimeout(wheelUnlockTimer);
+      // Velocity-scaled increment:
+      // Slow scroll (small delta): delicate increments (~0.04 - 0.10), user directly controls paper lift
+      // Fast scroll (large delta): brisk increments (~0.6 - 1.2), page flips rapidly with momentum
+      const absDelta = Math.abs(delta);
+      const sign = delta > 0 ? 1 : -1;
 
-      const direction = delta > 0 ? 1 : -1;
-      const currentTarget = Math.round(targetVirtualScroll);
-      const nextTarget = Math.max(0, Math.min(5, currentTarget + direction));
-      targetVirtualScroll = nextTarget;
+      let speedFactor;
+      if (absDelta < 60) {
+        speedFactor = 0.0022; // Delicate slow control
+      } else if (absDelta < 180) {
+        speedFactor = 0.0032; // Medium brisk control
+      } else {
+        speedFactor = 0.0042; // Fast flick
+      }
 
-      wheelUnlockTimer = setTimeout(() => {
-        isWheelLocked = false;
-      }, 380);
+      const increment = sign * Math.min(1.25, absDelta * speedFactor);
+      targetVirtualScroll = Math.max(0, Math.min(5, targetVirtualScroll + increment));
+
+      // Auto-settle snap to nearest completed service after scroll pauses (140ms debounce)
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(() => {
+        isWheeling = false;
+        const frac = targetVirtualScroll % 1;
+        let snapTarget;
+        if (sign > 0) {
+          snapTarget = frac > 0.30 ? Math.ceil(targetVirtualScroll) : Math.floor(targetVirtualScroll);
+        } else {
+          snapTarget = (1 - frac) > 0.30 ? Math.floor(targetVirtualScroll) : Math.ceil(targetVirtualScroll);
+        }
+        targetVirtualScroll = Math.max(0, Math.min(5, snapTarget));
+      }, 140);
     }, { passive: false });
 
-    // Touch Swipe gestures for mobile on calendar box
+    // Touch Swipe gestures with live finger tracking
     let touchStartY = 0;
-    let touchStartX = 0;
+    let touchBaseScroll = 0;
+    let touchLastY = 0;
+    let touchLastTime = 0;
+    let touchVelocity = 0;
 
     calendarContainer.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
-      touchStartX = e.touches[0].clientX;
+      touchLastY = touchStartY;
+      touchLastTime = Date.now();
+      touchBaseScroll = virtualScroll;
+      touchVelocity = 0;
+      clearTimeout(snapTimer);
     }, { passive: true });
 
-    calendarContainer.addEventListener('touchend', (e) => {
-      const touchEndY = e.changedTouches[0].clientY;
-      const touchEndX = e.changedTouches[0].clientX;
-      const diffY = touchStartY - touchEndY;
-      const diffX = touchStartX - touchEndX;
+    calendarContainer.addEventListener('touchmove', (e) => {
+      const currentY = e.touches[0].clientY;
+      const now = Date.now();
+      const dt = Math.max(1, now - touchLastTime);
+      const dy = currentY - touchLastY;
+      touchVelocity = dy / dt;
+      touchLastY = currentY;
+      touchLastTime = now;
 
-      if (Math.abs(diffY) > 40 && Math.abs(diffY) > Math.abs(diffX)) {
-        if (diffY > 0) {
-          targetVirtualScroll = Math.min(5, Math.round(virtualScroll + 1));
-        } else {
-          targetVirtualScroll = Math.max(0, Math.round(virtualScroll - 1));
-        }
-      } else if (Math.abs(diffX) > 45) {
-        if (diffX > 0) {
-          targetVirtualScroll = Math.min(5, Math.round(virtualScroll + 1));
-        } else {
-          targetVirtualScroll = Math.max(0, Math.round(virtualScroll - 1));
-        }
+      const totalDiffY = touchStartY - currentY;
+      if (Math.abs(totalDiffY) > 6) {
+        // Directly track touch movement: slow drag turns slow, fast drag turns fast
+        const progress = totalDiffY * 0.0038;
+        targetVirtualScroll = Math.max(0, Math.min(5, touchBaseScroll + progress));
       }
+    }, { passive: true });
+
+    calendarContainer.addEventListener('touchend', () => {
+      let finalTarget = targetVirtualScroll;
+      if (Math.abs(touchVelocity) > 0.35) {
+        finalTarget += touchVelocity < 0 ? 0.65 : -0.65;
+      }
+      targetVirtualScroll = Math.max(0, Math.min(5, Math.round(finalTarget)));
     }, { passive: true });
 
     // Ribbon pill clicks
     phasePills.forEach((pill, idx) => {
       pill.addEventListener('click', (e) => {
         e.preventDefault();
+        isWheeling = false;
         targetVirtualScroll = idx;
       });
     });
@@ -4588,6 +4643,7 @@ textarea {
       const stepBtn = e.target.closest('[data-step-to]');
       if (stepBtn) {
         e.preventDefault();
+        isWheeling = false;
         const nextIdx = parseInt(stepBtn.getAttribute('data-step-to'), 10);
         targetVirtualScroll = nextIdx;
         return;
@@ -4595,6 +4651,7 @@ textarea {
 
       const cardSurface = e.target.closest('.leaf-face-front, .sheet-under');
       if (cardSurface && !e.target.closest('a') && !e.target.closest('button')) {
+        isWheeling = false;
         targetVirtualScroll = (Math.round(virtualScroll) + 1) % 6;
       }
     });
@@ -4603,6 +4660,7 @@ textarea {
     if (nextBtn) {
       nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        isWheeling = false;
         targetVirtualScroll = Math.min(5, Math.round(virtualScroll + 1));
       });
     }
@@ -4610,6 +4668,7 @@ textarea {
     if (prevBtn) {
       prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        isWheeling = false;
         targetVirtualScroll = Math.max(0, Math.round(virtualScroll - 1));
       });
     }
@@ -4618,11 +4677,13 @@ textarea {
     if (tearTriggerLine) {
       tearTriggerLine.addEventListener('click', (e) => {
         e.preventDefault();
+        isWheeling = false;
         targetVirtualScroll = (Math.round(virtualScroll) + 1) % 6;
       });
       tearTriggerLine.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
+          isWheeling = false;
           targetVirtualScroll = (Math.round(virtualScroll) + 1) % 6;
         }
       });
@@ -4635,8 +4696,10 @@ textarea {
       if (!inView) return;
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        isWheeling = false;
         targetVirtualScroll = Math.min(5, Math.round(virtualScroll + 1));
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        isWheeling = false;
         targetVirtualScroll = Math.max(0, Math.round(virtualScroll - 1));
       }
     });

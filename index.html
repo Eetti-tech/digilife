@@ -4018,43 +4018,47 @@ textarea {
     });
 
     let isWheelLocked = false;
-    let lastWheelTime = 0;
+    let wheelCooldownTimer = null;
     const WHEEL_COOLDOWN_MS = 360;
 
-    // Scroll-On-Calendar: Responsive, smooth, strictly ONE service per scroll flick
+    // Scroll-On-Calendar: Highly responsive & smooth, strictly ONE service per scroll flick
     function handleWheelScroll(e) {
       if (tearView && tearView.classList.contains('is-hidden')) return;
 
-      // Boundary releases:
-      // At last service (5) and scrolling down -> allow natural scroll down to About Us
-      if (e.deltaY > 0 && currentIndex >= servicesData.length - 1) {
-        return;
-      }
-      // At first service (0) and scrolling up -> allow natural scroll up to Hero
-      if (e.deltaY < 0 && currentIndex <= 0) {
-        return;
+      // Normalize delta across all browsers and devices (especially Windows line mode deltaMode=1)
+      let delta = e.deltaY;
+      if (e.deltaMode === 1) {
+        delta *= 33; // Line mode to pixels
+      } else if (e.deltaMode === 2) {
+        delta *= 350; // Page mode to pixels
       }
 
-      // Inside services calendar bounds: prevent window scroll
+      // Micro-jitter filter: ignore negligible twitches below 5px
+      if (Math.abs(delta) < 5) return;
+
+      // Inside calendar: prevent browser page scroll so user navigates calendar sheets
       e.preventDefault();
 
-      // Responsive threshold for natural wheel or trackpad stroke
-      if (Math.abs(e.deltaY) < 10) return;
-
       const now = performance.now();
-      // Block kinetic inertia events during the 360ms tear animation
+      // Guard against double-triggering during active sheet tear animation
       if (isFlipping || isWheelLocked || (now - lastWheelTime < WHEEL_COOLDOWN_MS)) {
         return;
       }
 
       lastWheelTime = now;
       isWheelLocked = true;
+      clearTimeout(wheelCooldownTimer);
+      wheelCooldownTimer = setTimeout(() => {
+        isWheelLocked = false;
+      }, WHEEL_COOLDOWN_MS + 20);
 
-      // Advance strictly ONE service at a time
-      if (e.deltaY > 0) {
-        flipToService(currentIndex + 1, 'next');
-      } else if (e.deltaY < 0) {
-        flipToService(currentIndex - 1, 'prev');
+      // Advance strictly ONE service per scroll flick with continuous circular wrapping
+      if (delta > 0) {
+        const nextIndex = (currentIndex + 1) % servicesData.length;
+        flipToService(nextIndex, 'next');
+      } else if (delta < 0) {
+        const prevIndex = (currentIndex - 1 + servicesData.length) % servicesData.length;
+        flipToService(prevIndex, 'prev');
       }
     }
 

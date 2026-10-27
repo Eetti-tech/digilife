@@ -1672,7 +1672,7 @@ textarea {
 }
 
 /* ==========================================================================
-   DESK CALENDAR PEEL COMPONENT (REPLICATING ATTACHED REFERENCE CALENDAR)
+   AUTHENTIC 3D CALENDAR PAGE-TURNING COMPONENT (PHYSICAL DESK CALENDAR FLIP)
    ========================================================================== */
 .tear-calendar-showcase {
   position: relative;
@@ -1682,11 +1682,10 @@ textarea {
   box-shadow: 0 30px 80px rgba(5, 12, 24, 0.58), inset 0 1px 1px rgba(255, 255, 255, 0.28), inset 0 -1px 1px rgba(0, 0, 0, 0.5), 0 0 30px rgba(198, 243, 107, 0.08);
   margin-bottom: 2rem;
   border: 1px solid rgba(198, 243, 107, 0.28);
-  overflow: hidden;
+  overflow: visible;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Glossy glass reflection across the calendar showcase */
 .tear-calendar-showcase::before {
   content: '';
   position: absolute;
@@ -1766,12 +1765,13 @@ textarea {
   letter-spacing: 0.06em;
 }
 
-/* Desk Calendar Peel Stage */
+/* Desk Calendar 3D Stage (Camera Perspective) */
 .calendar-peel-stage {
   position: relative;
-  min-height: 540px;
+  min-height: 520px;
   background: transparent;
-  perspective: 1200px;
+  perspective: 1600px;
+  perspective-origin: 50% 12%;
   border-radius: 0 0 0.85rem 0.85rem;
 }
 
@@ -1795,7 +1795,7 @@ textarea {
   opacity: 0.85;
 }
 
-/* Base Calendar Sheet (Glossy Coated Finish) */
+/* Base Calendar Sheet Container */
 .calendar-desk-sheet {
   position: absolute;
   inset: 0;
@@ -1807,12 +1807,8 @@ textarea {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  will-change: transform, opacity;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
 }
 
-/* Subtle diagonal glossy sheen across the calendar paper */
 .calendar-desk-sheet::before {
   content: '';
   position: absolute;
@@ -1825,13 +1821,196 @@ textarea {
   z-index: 4;
 }
 
+/* Under Sheet */
 .calendar-desk-sheet.sheet-under {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.under-sheet-shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(16, 29, 53, 0.38) 0%, rgba(16, 29, 53, 0.18) 35%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.04s linear;
+  z-index: 5;
+}
+
+/* The 3D Turning Leaf (Hinged at top binder edge) */
+.calendar-flip-leaf {
+  position: absolute;
+  inset: 0;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  z-index: 2;
+  border-radius: 0 0 0.85rem 0.85rem;
+  will-change: transform, box-shadow, opacity;
+  box-shadow: 0 20px 48px rgba(16, 29, 53, 0.22);
+}
+
+/* Front & Back Faces of the Turning Leaf */
+.leaf-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 0 0 0.85rem 0.85rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.leaf-face-front {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDFEFE 45%, #F8FAFC 100%);
+  border: 1px solid rgba(226, 231, 240, 0.9);
+  border-top: none;
+  transform: rotateX(0deg);
+  z-index: 2;
+}
+
+.leaf-face-front::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 28%, transparent 48%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.leaf-face-back {
+  background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 55%, #E2E8F0 100%);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  border-top: none;
+  box-shadow: 0 16px 36px rgba(16, 29, 53, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  transform: rotateX(180deg);
   z-index: 1;
 }
 
-.calendar-desk-sheet.sheet-active {
-  z-index: 2;
-  cursor: pointer;
+.leaf-shading-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.04s linear;
+  z-index: 6;
+}
+
+.leaf-shading-overlay.front-shading {
+  background: linear-gradient(180deg, transparent 0%, rgba(16, 29, 53, 0.12) 45%, rgba(16, 29, 53, 0.38) 100%);
+}
+
+.leaf-shading-overlay.back-shading {
+  background: linear-gradient(0deg, transparent 0%, rgba(16, 29, 53, 0.12) 50%, rgba(16, 29, 53, 0.35) 100%);
+}
+
+/* Reverse Face Memo Design */
+.calendar-back-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.75rem;
+  box-sizing: border-box;
+  background: #F8FAFC;
+  position: relative;
+  justify-content: space-between;
+}
+
+.back-binder-strip {
+  width: 100%;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px dashed #CBD5E1;
+}
+
+.back-punch-holes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.back-hole {
+  width: 14px;
+  height: 8px;
+  background: #070D18;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.back-hole.spacer {
+  visibility: hidden;
+  width: 140px;
+}
+
+.back-memo-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.back-header-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.back-brand-seal {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #475569;
+}
+
+.back-serial-tag {
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 0.08em;
+}
+
+.back-ruled-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem 0;
+}
+
+.ruled-line {
+  width: 100%;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #CBD5E1 0px, #CBD5E1 8px, transparent 8px, transparent 14px);
+  opacity: 0.75;
+}
+
+.back-footer-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid #E2E8F0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.stamp-bullet {
+  color: var(--color-lime);
 }
 
 /* Red Banner Header with Glossy Lacquer Highlight */
@@ -1957,14 +2136,14 @@ textarea {
   color: #CBD5E1;
 }
 
-/* Calendar Body Content (replacing date grid) */
+/* Calendar Body Content inside sheet */
 .calendar-body-content {
-  padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1.2rem, 3.5vw, 2rem);
+  padding: clamp(1rem, 2.5vw, 1.6rem) clamp(1rem, 3vw, 1.8rem);
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  gap: 1.25rem;
+  gap: 1.15rem;
 }
 
 .calendar-service-intro {
@@ -2005,7 +2184,7 @@ textarea {
   margin: 0;
 }
 
-/* 4-Cell Calendar Deliverables Matrix (structured like a calendar grid) */
+/* 4-Cell Calendar Deliverables Matrix */
 .calendar-deliverables-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2136,10 +2315,6 @@ textarea {
   border-color: #DC2626;
 }
 
-/* ==========================================================================
-   SMOOTH SCROLL-DRIVEN ARCHITECTURE & DESK CALENDAR PRESENTATION
-   ========================================================================== */
-
 /* Desktop Sticky Scroll Track */
 .services-scroll-track {
   position: relative;
@@ -2147,8 +2322,8 @@ textarea {
 
 @media (min-width: 769px) and (min-height: 651px) {
   .services-scroll-track {
-    /* 6 service steps: each step ~45vh scroll journey = ~325vh total */
-    height: calc(100vh + 5 * 45vh);
+    /* 6 service steps: 5 transitions * 55vh scroll journey = ~375vh total */
+    height: calc(100vh + 5 * 55vh);
     margin-bottom: 0;
   }
 
@@ -2229,121 +2404,11 @@ textarea {
     justify-content: center;
     min-height: 44px;
   }
-}
 
-/* Desk Calendar Peel Stage */
-.calendar-peel-stage {
-  position: relative;
-  background: transparent;
-  border-radius: 0 0 0.85rem 0.85rem;
-}
-
-/* Desk Pad Depth Sheets */
-.desk-pad-depth {
-  position: absolute;
-  inset: 0;
-  border-radius: 0 0 0.85rem 0.85rem;
-  pointer-events: none;
-}
-.desk-pad-depth.depth-2 {
-  background: #CBD5E1;
-  transform: translateY(10px) scale(0.98);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-  opacity: 0.65;
-}
-.desk-pad-depth.depth-1 {
-  background: #E2E8F0;
-  transform: translateY(5px) scale(0.99);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-  opacity: 0.85;
-}
-
-/* Base Calendar Sheet */
-.calendar-desk-sheet {
-  position: relative;
-  width: 100%;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FDFEFE 45%, #F8FAFC 100%);
-  border-radius: 0 0 0.85rem 0.85rem;
-  box-shadow: 0 20px 48px rgba(16, 29, 53, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(226, 231, 240, 0.9);
-  border-top: none;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Diagonal glossy sheen across the calendar paper */
-.calendar-desk-sheet::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 28%, transparent 48%, rgba(255, 255, 255, 0.05) 100%);
-  pointer-events: none;
-  z-index: 4;
-}
-
-/* Calendar Body Deck & Refined 300ms Content Transitions */
-.calendar-body-deck {
-  position: relative;
-  min-height: 380px;
-  width: 100%;
-}
-
-.service-sheet-panel {
-  position: absolute;
-  inset: 0;
-  padding: clamp(1rem, 2.5vw, 1.6rem) clamp(1rem, 3vw, 1.8rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.15rem;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(14px);
-  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0.3s ease;
-  pointer-events: none;
-}
-
-.service-sheet-panel.is-active {
-  position: relative;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-  z-index: 2;
-}
-
-.service-sheet-panel.is-exiting-up {
-  opacity: 0;
-  transform: translateY(-14px);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.service-sheet-panel.is-exiting-down {
-  opacity: 0;
-  transform: translateY(14px);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Banner number & Sub-bar smooth update transition */
-.banner-big-num,
-.sub-bar-category,
-.sub-bar-lead,
-.sub-bar-turnaround {
-  transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-
-.is-updating-num {
-  opacity: 0.2;
-  transform: translateY(-4px);
+  .calendar-peel-stage {
+    perspective: 1200px;
+    min-height: 580px;
+  }
 }
 
 /* Laptop viewport optimization (768px - 850px viewport height) */
@@ -2354,7 +2419,7 @@ textarea {
   .tear-calendar-showcase {
     padding: 0.9rem 1rem 1.1rem;
   }
-  .service-sheet-panel {
+  .calendar-body-content {
     padding: 0.85rem 1.2rem;
     gap: 0.85rem;
   }
@@ -2383,6 +2448,9 @@ textarea {
   .calendar-sheet-footer-row {
     padding-top: 0.6rem;
     gap: 0.6rem;
+  }
+  .calendar-peel-stage {
+    min-height: 470px;
   }
 }
 
@@ -2868,9 +2936,8 @@ textarea {
                   <div class="desk-pad-depth depth-2" aria-hidden="true"></div>
                   <div class="desk-pad-depth depth-1" aria-hidden="true"></div>
 
-                  <!-- The Calendar Desk Sheet Container -->
-                  <article class="calendar-desk-sheet" id="calendar-desk-sheet" aria-live="polite">
-                    <!-- Top Red Header Banner -->
+                  <!-- 1. THE UNDER SHEET (Revealed as the top leaf turns in 3D) -->
+                  <article class="calendar-desk-sheet sheet-under" id="calendar-under-sheet" aria-hidden="true">
                     <div class="calendar-banner-header">
                       <div class="banner-punch-holes" aria-hidden="true">
                         <span class="punch-hole"></span>
@@ -2892,25 +2959,123 @@ textarea {
                         </div>
                         <div class="banner-right-num">
                           <span class="banner-num-label">SERVICE</span>
-                          <span class="banner-big-num" id="cal-banner-num">01</span>
+                          <span class="banner-big-num" id="under-banner-num">02</span>
                         </div>
                       </div>
                     </div>
 
-                    <!-- Sub-bar below Red Banner -->
-                    <div class="calendar-sub-bar" id="cal-sub-bar">
-                      <span class="sub-bar-category" id="cal-sub-cat">SETUP &amp; LICENSING</span>
+                    <div class="calendar-sub-bar" id="under-sub-bar">
+                      <span class="sub-bar-category" id="under-sub-cat">BRANDING &amp; DESIGN</span>
                       <span class="sub-bar-dot" aria-hidden="true">•</span>
-                      <span class="sub-bar-lead" id="cal-sub-lead">Lead: Chartered Accountants &amp; CS Team</span>
+                      <span class="sub-bar-lead" id="under-sub-lead">Lead: Senior Brand &amp; Visual Identity Team</span>
                       <span class="sub-bar-dot" aria-hidden="true">•</span>
-                      <span class="sub-bar-turnaround" id="cal-sub-turn">Turnaround: 7–14 Business Days</span>
+                      <span class="sub-bar-turnaround" id="under-sub-turn">Turnaround: 10–14 Business Days</span>
                     </div>
 
-                    <!-- Body Deck holding all 6 Service Panels -->
-                    <div class="calendar-body-deck" id="calendar-body-deck">
+                    <div class="calendar-body-content" id="under-sheet-body"></div>
 
-              <!-- Service Panel 01: Business Registration -->
-              <div class="service-sheet-panel is-active" id="service-panel-0" data-service-panel="0" role="tabpanel" aria-labelledby="phase-pill-0">
+                    <!-- Dynamic Moving Shadow cast onto this sheet -->
+                    <div class="under-sheet-shadow" id="under-sheet-shadow" aria-hidden="true"></div>
+                  </article>
+
+                  <!-- 2. THE TURNING LEAF (Hinged at top wire binder loops, rotates in 3D) -->
+                  <div class="calendar-flip-leaf" id="calendar-flip-leaf">
+                    <!-- FRONT FACE: Active Service Page -->
+                    <article class="leaf-face leaf-face-front" id="leaf-face-front" aria-live="polite">
+                      <div class="calendar-banner-header">
+                        <div class="banner-punch-holes" aria-hidden="true">
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole spacer"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                          <span class="punch-hole"></span>
+                        </div>
+                        <div class="banner-main-row">
+                          <div class="banner-left-title">
+                            <span class="banner-brand-tag">DIGILEAF</span>
+                            <span class="banner-sub-tag">SERVICES CALENDAR</span>
+                          </div>
+                          <div class="banner-right-num">
+                            <span class="banner-num-label">SERVICE</span>
+                            <span class="banner-big-num" id="cal-banner-num">01</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="calendar-sub-bar" id="cal-sub-bar">
+                        <span class="sub-bar-category" id="cal-sub-cat">SETUP &amp; LICENSING</span>
+                        <span class="sub-bar-dot" aria-hidden="true">•</span>
+                        <span class="sub-bar-lead" id="cal-sub-lead">Lead: Chartered Accountants &amp; CS Team</span>
+                        <span class="sub-bar-dot" aria-hidden="true">•</span>
+                        <span class="sub-bar-turnaround" id="cal-sub-turn">Turnaround: 7–14 Business Days</span>
+                      </div>
+
+                      <div class="calendar-body-content" id="leaf-front-body"></div>
+
+                      <div class="leaf-shading-overlay front-shading" id="leaf-front-shading" aria-hidden="true"></div>
+                    </article>
+
+                    <!-- REVERSE FACE: Luxury Desk Calendar Notes / Memo Back -->
+                    <div class="leaf-face leaf-face-back" id="leaf-face-back" aria-hidden="true">
+                      <div class="calendar-back-content">
+                        <div class="back-binder-strip">
+                          <div class="back-punch-holes">
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole spacer"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                            <span class="back-hole"></span>
+                          </div>
+                        </div>
+
+                        <div class="back-memo-grid">
+                          <div class="back-header-line">
+                            <div class="back-brand-seal">
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L14.5 8.5H21.5L16 13L18 19.5L12 15.5L6 19.5L8 13L2.5 8.5H9.5L12 2Z" fill="#101D35" fill-opacity="0.14"/>
+                              </svg>
+                              <span>DIGILEAF EXECUTIVE CALENDAR • 2026 SERVICES</span>
+                            </div>
+                            <div class="back-serial-tag" id="back-serial-tag">SERIES 01 // MEMO</div>
+                          </div>
+
+                          <div class="back-ruled-lines">
+                            <div class="ruled-line"></div>
+                            <div class="ruled-line"></div>
+                            <div class="ruled-line"></div>
+                            <div class="ruled-line"></div>
+                            <div class="ruled-line"></div>
+                            <div class="ruled-line"></div>
+                          </div>
+
+                          <div class="back-footer-stamp">
+                            <span>VERIFIED ADVISORY NETWORK</span>
+                            <span class="stamp-bullet">•</span>
+                            <span>CHARTERED ACCOUNTANTS &amp; COMPANY SECRETARIES</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="leaf-shading-overlay back-shading" id="leaf-back-shading" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Static Service Templates: Preserved for immediate SEO, accessibility, and zero-allocation rendering -->
+                <div class="calendar-service-templates" id="calendar-service-templates" hidden aria-hidden="true">
+                  <div class="service-sheet-panel is-active" id="service-panel-0" data-service-panel="0" role="tabpanel" aria-labelledby="phase-pill-0">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2Z" stroke="#C6F36B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2988,7 +3153,7 @@ textarea {
               </div>
 
               <!-- Service Panel 02: Brand Identity -->
-              <div class="service-sheet-panel" id="service-panel-1" data-service-panel="1" role="tabpanel" aria-labelledby="phase-pill-1">
+                  <div class="service-sheet-panel" id="service-panel-1" data-service-panel="1" role="tabpanel" aria-labelledby="phase-pill-1">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3Z" stroke="#C6F36B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3066,7 +3231,7 @@ textarea {
               </div>
 
               <!-- Service Panel 03: Digital Marketing -->
-              <div class="service-sheet-panel" id="service-panel-2" data-service-panel="2" role="tabpanel" aria-labelledby="phase-pill-2">
+                  <div class="service-sheet-panel" id="service-panel-2" data-service-panel="2" role="tabpanel" aria-labelledby="phase-pill-2">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M16 5.5L8.5 9H5.5C4.67 9 4 9.67 4 10.5v2C4 13.33 4.67 14 5.5 14h1.2l1.6 4.5h2.1L9 14l7 3.5V5.5Z" fill="#C6F36B"/><path d="M18.5 9.2a3.2 3.2 0 0 1 0 4.6" stroke="#C6F36B" stroke-width="2" stroke-linecap="round"/></svg>
@@ -3144,7 +3309,7 @@ textarea {
               </div>
 
               <!-- Service Panel 04: Websites and Online Presence -->
-              <div class="service-sheet-panel" id="service-panel-3" data-service-panel="3" role="tabpanel" aria-labelledby="phase-pill-3">
+                  <div class="service-sheet-panel" id="service-panel-3" data-service-panel="3" role="tabpanel" aria-labelledby="phase-pill-3">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M8.5 8.5L4.5 12l4 3.5M15.5 8.5l4 3.5-4 3.5M13.5 6.5l-3 11" stroke="#C6F36B" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3222,7 +3387,7 @@ textarea {
               </div>
 
               <!-- Service Panel 05: Compliance Coordination -->
-              <div class="service-sheet-panel" id="service-panel-4" data-service-panel="4" role="tabpanel" aria-labelledby="phase-pill-4">
+                  <div class="service-sheet-panel" id="service-panel-4" data-service-panel="4" role="tabpanel" aria-labelledby="phase-pill-4">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="#C6F36B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#C6F36B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3300,7 +3465,7 @@ textarea {
               </div>
 
               <!-- Service Panel 06: Business Development -->
-              <div class="service-sheet-panel" id="service-panel-5" data-service-panel="5" role="tabpanel" aria-labelledby="phase-pill-5">
+                  <div class="service-sheet-panel" id="service-panel-5" data-service-panel="5" role="tabpanel" aria-labelledby="phase-pill-5">
                 <div class="calendar-service-intro">
                   <div class="service-icon-circle" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="28" height="28" fill="none"><rect x="5" y="13" width="3" height="6" rx="1" fill="#C6F36B"/><rect x="10.5" y="9.5" width="3" height="9.5" rx="1" fill="#C6F36B"/><rect x="16" y="5" width="3" height="14" rx="1" fill="#C6F36B"/></svg>
@@ -3376,11 +3541,7 @@ textarea {
                   </div>
                 </div>
               </div>
-                    </div>
-                  </article>
                 </div>
-
-                <!-- Calendar Bottom Controls Bar -->
                 <div class="calendar-desk-footer">
                   <div class="cal-nav-group">
                     <button type="button" class="cal-nav-btn" id="tear-prev-btn" aria-label="Previous Service">
@@ -4052,31 +4213,31 @@ textarea {
 
   
   /* ------------------------------------------------------------------------
-     7. Interactive Services Calendar & Scroll Animation (Natural Scroll Architecture)
+     7. Interactive Services Calendar & Physical 3D Page Turn Engine
      ------------------------------------------------------------------------ */
   function initServicesCalendar() {
     const calendarContainer = document.getElementById('tear-calendar-showcase');
     const scrollTrack = document.getElementById('services-scroll-track');
     const stickyStage = document.getElementById('services-sticky-stage');
-    const deck = document.getElementById('calendar-body-deck');
+    const peelStage = document.getElementById('calendar-peel-stage');
+    const underSheet = document.getElementById('calendar-under-sheet');
+    const flipLeaf = document.getElementById('calendar-flip-leaf');
+    const frontFace = document.getElementById('leaf-face-front');
+    const backFace = document.getElementById('leaf-face-back');
+    const underBody = document.getElementById('under-sheet-body');
+    const frontBody = document.getElementById('leaf-front-body');
+    const underShadow = document.getElementById('under-sheet-shadow');
+    const frontShading = document.getElementById('leaf-front-shading');
+    const backShading = document.getElementById('leaf-back-shading');
+    const templatesContainer = document.getElementById('calendar-service-templates');
     const tearView = document.getElementById('services-tear-view');
     const gridView = document.getElementById('services-grid-view');
-    if (!calendarContainer || !scrollTrack || !stickyStage || !deck) return;
 
-    const panels = Array.from(deck.querySelectorAll('.service-sheet-panel'));
-    const phasePills = Array.from(document.querySelectorAll('.tear-phase-ribbon .phase-pill'));
-    const bannerNum = document.getElementById('cal-banner-num');
-    const subCat = document.getElementById('cal-sub-cat');
-    const subLead = document.getElementById('cal-sub-lead');
-    const subTurn = document.getElementById('cal-sub-turn');
-    const binderBadge = document.getElementById('binder-counter-badge');
-    const counterText = document.getElementById('tear-counter-text');
-    const miniTitle = document.getElementById('tear-service-mini-title');
-    const progressFill = document.getElementById('tear-progress-fill');
-    const prevBtn = document.getElementById('tear-prev-btn');
-    const nextBtn = document.getElementById('tear-next-btn');
-    const tearTriggerLine = document.getElementById('tear-trigger-line');
-    const viewToggleBtns = Array.from(document.querySelectorAll('.view-toggle-btn'));
+    if (!calendarContainer || !scrollTrack || !stickyStage || !peelStage || !flipLeaf || !templatesContainer) return;
+
+    // Extract all 6 pre-rendered service templates
+    const rawPanels = Array.from(templatesContainer.querySelectorAll('.service-sheet-panel'));
+    if (rawPanels.length !== 6) return;
 
     const servicesMeta = [
       { num: '01', name: 'Business Registration', cat: 'SETUP & LICENSING', lead: 'Chartered Accountants & CS Team', turn: '7–14 Business Days' },
@@ -4087,55 +4248,74 @@ textarea {
       { num: '06', name: 'Business Development', cat: 'SCALE & CAPITAL', lead: 'Business Strategy & Scaling Advisors', turn: 'Tailored Advisory Milestones' }
     ];
 
-    let currentIndex = 0;
-    let isTransitioning = false;
-    let transitionTimer = null;
+    // Cache service body HTML for instant, zero-reflow injection
+    const servicesHTML = rawPanels.map(panel => panel.innerHTML);
+
+    const phasePills = Array.from(document.querySelectorAll('.tear-phase-ribbon .phase-pill'));
+    const bannerNum = document.getElementById('cal-banner-num');
+    const subCat = document.getElementById('cal-sub-cat');
+    const subLead = document.getElementById('cal-sub-lead');
+    const subTurn = document.getElementById('cal-sub-turn');
+    const underBannerNum = document.getElementById('under-banner-num');
+    const underSubCat = document.getElementById('under-sub-cat');
+    const underSubLead = document.getElementById('under-sub-lead');
+    const underSubTurn = document.getElementById('under-sub-turn');
+    const backSerialTag = document.getElementById('back-serial-tag');
+    const binderBadge = document.getElementById('binder-counter-badge');
+    const counterText = document.getElementById('tear-counter-text');
+    const miniTitle = document.getElementById('tear-service-mini-title');
+    const progressFill = document.getElementById('tear-progress-fill');
+    const prevBtn = document.getElementById('tear-prev-btn');
+    const nextBtn = document.getElementById('tear-next-btn');
+    const tearTriggerLine = document.getElementById('tear-trigger-line');
+    const viewToggleBtns = Array.from(document.querySelectorAll('.view-toggle-btn'));
+
+    // State
+    let currentFrontIndex = 0;
+    let currentUnderIndex = 1;
+    let activeServiceIndex = 0;
+    let virtualScroll = 0;        // Continuous position: 0.0 to 5.0
+    let targetVirtualScroll = 0;
     let isProgrammaticScroll = false;
-    let scrollReleaseTimer = null;
+    let programmaticTimer = null;
+    let animFrameId = null;
 
-    function transitionToService(targetIndex, direction = 'next') {
-      if (targetIndex === currentIndex || targetIndex < 0 || targetIndex >= panels.length) return;
-
-      const prevIndex = currentIndex;
-      currentIndex = targetIndex;
-      const meta = servicesMeta[currentIndex];
-
-      // Clean up previous timers
-      clearTimeout(transitionTimer);
-      isTransitioning = true;
-
-      // Animate outgoing panel
-      const outgoing = panels[prevIndex];
-      const incoming = panels[currentIndex];
-
-      if (outgoing) {
-        outgoing.classList.remove('is-active', 'is-exiting-up', 'is-exiting-down');
-        outgoing.classList.add(direction === 'next' ? 'is-exiting-up' : 'is-exiting-down');
-      }
-
-      // Animate incoming panel
-      if (incoming) {
-        incoming.classList.remove('is-exiting-up', 'is-exiting-down');
-        incoming.classList.add('is-active');
-      }
-
-      // Update banner number with slight pulse
-      if (bannerNum) {
-        bannerNum.classList.add('is-updating-num');
-        setTimeout(() => {
-          bannerNum.textContent = meta.num;
-          bannerNum.classList.remove('is-updating-num');
-        }, 120);
-      }
-
-      // Update sub-bar metadata
+    // Helper to render service contents onto front sheet
+    function renderFrontSheet(index) {
+      currentFrontIndex = index;
+      const meta = servicesMeta[index];
+      if (bannerNum) bannerNum.textContent = meta.num;
       if (subCat) subCat.textContent = meta.cat;
       if (subLead) subLead.textContent = 'Lead: ' + meta.lead;
       if (subTurn) subTurn.textContent = 'Turnaround: ' + meta.turn;
+      if (backSerialTag) backSerialTag.textContent = `SERIES ${meta.num} // MEMO`;
+      if (frontBody) frontBody.innerHTML = servicesHTML[index];
+    }
 
-      // Update Phase Pills
+    // Helper to render service contents onto under sheet
+    function renderUnderSheet(index) {
+      currentUnderIndex = index;
+      const meta = servicesMeta[index];
+      if (underBannerNum) underBannerNum.textContent = meta.num;
+      if (underSubCat) underSubCat.textContent = meta.cat;
+      if (underSubLead) underSubLead.textContent = 'Lead: ' + meta.lead;
+      if (underSubTurn) underSubTurn.textContent = 'Turnaround: ' + meta.turn;
+      if (underBody) underBody.innerHTML = servicesHTML[index];
+    }
+
+    // Initialize initial sheets
+    renderFrontSheet(0);
+    renderUnderSheet(1);
+
+    // Synchronize UI chrome (pills, badges, progress bar, counter)
+    function syncChrome(index) {
+      if (index === activeServiceIndex) return;
+      activeServiceIndex = index;
+      const meta = servicesMeta[index];
+
+      // Update Phase Ribbon Pills
       phasePills.forEach((pill, idx) => {
-        const isCurrent = idx === currentIndex;
+        const isCurrent = idx === index;
         pill.classList.toggle('is-active', isCurrent);
         pill.setAttribute('aria-selected', String(isCurrent));
         if (isCurrent) {
@@ -4143,80 +4323,133 @@ textarea {
         }
       });
 
-      // Update footer controls
-      if (progressFill) {
-        progressFill.style.width = (((currentIndex + 1) / panels.length) * 100) + '%';
-      }
-      if (counterText) {
-        counterText.textContent = `Service ${currentIndex + 1} of ${panels.length}`;
-      }
-      if (miniTitle) {
-        miniTitle.textContent = meta.name;
-      }
-      if (binderBadge) {
-        binderBadge.textContent = `SERVICE ${meta.num} / 06`;
-      }
+      // Update Top Wire Binder Badge
+      if (binderBadge) binderBadge.textContent = `SERVICE ${meta.num} / 06`;
 
-      transitionTimer = setTimeout(() => {
-        if (outgoing) {
-          outgoing.classList.remove('is-exiting-up', 'is-exiting-down');
-        }
-        isTransitioning = false;
-      }, 340);
+      // Update Bottom Bar Progress & Labels
+      if (progressFill) progressFill.style.width = `${((index + 1) / 6) * 100}%`;
+      if (counterText) counterText.textContent = `Service ${index + 1} of 6`;
+      if (miniTitle) miniTitle.textContent = meta.name;
     }
 
-    // Scroll to exact position for desktop sticky journey
-    function scrollToServiceIndex(index) {
-      const targetIdx = Math.max(0, Math.min(panels.length - 1, index));
+    // Core 3D Flip Render Engine: calculates rotation angle, shadow, and face visibility
+    function applyFlipState(vScroll) {
+      const clamped = Math.max(0, Math.min(5, vScroll));
+      const baseIndex = Math.min(4, Math.floor(clamped));
+      const frac = clamped - baseIndex;
 
-      if (window.innerWidth <= 768 || window.innerHeight <= 650) {
-        transitionToService(targetIdx, targetIdx > currentIndex ? 'next' : 'prev');
+      // Check if user prefers reduced motion
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        const targetIdx = Math.round(clamped);
+        renderFrontSheet(targetIdx);
+        flipLeaf.style.transform = 'none';
+        flipLeaf.style.boxShadow = '0 20px 48px rgba(16, 29, 53, 0.22)';
+        flipLeaf.style.opacity = '1';
+        if (underShadow) underShadow.style.opacity = '0';
+        if (frontShading) frontShading.style.opacity = '0';
+        if (backShading) backShading.style.opacity = '0';
+        syncChrome(targetIdx);
         return;
       }
 
-      isProgrammaticScroll = true;
-      clearTimeout(scrollReleaseTimer);
+      // Plateau: 0 to 0.15 resting flat on baseIndex
+      // Turn zone: 0.15 to 0.85 turning from baseIndex to baseIndex + 1
+      // Settle: 0.85 to 1.0 resting flat on baseIndex + 1
+      const P_START = 0.15;
+      const P_END = 0.85;
 
-      const trackRect = scrollTrack.getBoundingClientRect();
-      const trackTop = trackRect.top + window.scrollY;
-      const trackHeight = scrollTrack.offsetHeight;
-      const stickyHeight = stickyStage.offsetHeight;
-      const scrollableDist = Math.max(1, trackHeight - stickyHeight);
+      let angle = 0;
+      let turnProgress = 0;
+      let activeIdx = baseIndex;
+      let shadowAmt = 0;
+      let leafOpacity = 1;
 
-      // Account for site header
-      const headerEl = document.querySelector('.site-header');
-      const headerHeight = headerEl ? headerEl.offsetHeight : 72;
-      const stickyTopOffset = headerHeight + 16;
+      if (frac <= P_START) {
+        // Flat on baseIndex
+        angle = 0;
+        turnProgress = 0;
+        activeIdx = baseIndex;
+        shadowAmt = 0;
+        leafOpacity = 1;
 
-      const stepFraction = (targetIdx + 0.5) / panels.length;
-      const targetY = trackTop - stickyTopOffset + (stepFraction * scrollableDist);
+        if (currentFrontIndex !== baseIndex) renderFrontSheet(baseIndex);
+        if (currentUnderIndex !== Math.min(5, baseIndex + 1)) renderUnderSheet(Math.min(5, baseIndex + 1));
+      } else if (frac >= P_END) {
+        // Flat on next service (baseIndex + 1)
+        angle = 0;
+        turnProgress = 1;
+        activeIdx = baseIndex + 1;
+        shadowAmt = 0;
+        leafOpacity = 1;
 
-      window.scrollTo({
-        top: targetY,
-        behavior: 'smooth'
-      });
+        if (currentFrontIndex !== baseIndex + 1) renderFrontSheet(baseIndex + 1);
+        if (currentUnderIndex !== Math.min(5, baseIndex + 2)) renderUnderSheet(Math.min(5, baseIndex + 2));
+      } else {
+        // In the 3D Turn Zone!
+        turnProgress = (frac - P_START) / (P_END - P_START);
+        // Refined ease-in-out curve for natural physical paper weight
+        const eased = 0.5 * (1 - Math.cos(Math.PI * turnProgress));
+        angle = eased * 165; // 0deg to 165deg rotation over top wire loops
 
-      transitionToService(targetIdx, targetIdx > currentIndex ? 'next' : 'prev');
+        activeIdx = turnProgress < 0.5 ? baseIndex : baseIndex + 1;
+        shadowAmt = Math.sin(turnProgress * Math.PI);
 
-      scrollReleaseTimer = setTimeout(() => {
-        isProgrammaticScroll = false;
-      }, 650);
+        // Ensure correct sheets are assigned to front and under
+        if (currentFrontIndex !== baseIndex) renderFrontSheet(baseIndex);
+        if (currentUnderIndex !== baseIndex + 1) renderUnderSheet(baseIndex + 1);
+
+        // As leaf reaches 155deg-165deg over top binder, ease opacity so it tucks behind wire loops
+        if (turnProgress > 0.90) {
+          leafOpacity = 1 - ((turnProgress - 0.90) / 0.10);
+        } else {
+          leafOpacity = 1;
+        }
+      }
+
+      // Apply 3D rotation transform to the turning leaf
+      flipLeaf.style.transform = `rotateX(${angle}deg)`;
+      flipLeaf.style.opacity = leafOpacity;
+
+      // Realistic 3D Paper Drop Shadow (expands in Z as paper lifts towards viewer)
+      const rad = (angle * Math.PI) / 180;
+      const shadowY = Math.sin(rad) * 36;
+      const shadowBlur = Math.sin(rad) * 55;
+      const shadowAlpha = shadowAmt * 0.40;
+      flipLeaf.style.boxShadow = `0 ${Math.max(18, shadowY)}px ${Math.max(38, shadowBlur)}px rgba(0, 0, 0, ${Math.max(0.22, shadowAlpha)})`;
+
+      // Moving Shadow cast onto the Under Sheet
+      if (underShadow) underShadow.style.opacity = (shadowAmt * 0.45).toFixed(3);
+
+      // Ambient Lighting / Shading on Front and Reverse faces
+      if (frontShading) {
+        frontShading.style.opacity = turnProgress < 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.35).toFixed(3) : '0';
+      }
+      if (backShading) {
+        backShading.style.opacity = turnProgress >= 0.5 ? (Math.sin(turnProgress * Math.PI) * 0.35).toFixed(3) : '0';
+      }
+
+      // Interactive hit states: disable pointer events during mid-turn so fast scrolling doesn't mis-click
+      flipLeaf.style.pointerEvents = turnProgress > 0.05 && turnProgress < 0.95 ? 'none' : 'auto';
+
+      syncChrome(activeIdx);
     }
 
-    // Passive Natural Scroll Tracking with requestAnimationFrame
-    let ticking = false;
+    // 60FPS Continuous Animation Loop with smooth inertia interpolation (Lerp)
+    function animationLoop() {
+      const delta = targetVirtualScroll - virtualScroll;
+      if (Math.abs(delta) > 0.0001) {
+        // 16% lerp factor: provides immediate responsiveness with silky smooth physical easing
+        virtualScroll += delta * 0.16;
+        applyFlipState(virtualScroll);
+      }
+      animFrameId = requestAnimationFrame(animationLoop);
+    }
+    animFrameId = requestAnimationFrame(animationLoop);
 
+    // Passive Natural Scroll Tracker (Zero event hijacking)
     function onWindowScroll() {
       if (window.innerWidth <= 768 || window.innerHeight <= 650 || isProgrammaticScroll) return;
-      if (!ticking) {
-        requestAnimationFrame(updateScrollProgress);
-        ticking = true;
-      }
-    }
-
-    function updateScrollProgress() {
-      ticking = false;
-      if (isProgrammaticScroll || window.innerWidth <= 768 || window.innerHeight <= 650) return;
 
       const trackRect = scrollTrack.getBoundingClientRect();
       const trackHeight = scrollTrack.offsetHeight;
@@ -4231,50 +4464,82 @@ textarea {
       const currentScrollIntoTrack = -trackRect.top + stickyTopOffset;
 
       if (currentScrollIntoTrack <= 0) {
-        if (currentIndex !== 0) transitionToService(0, 'prev');
+        targetVirtualScroll = 0;
         return;
       }
 
       if (currentScrollIntoTrack >= scrollableDist) {
-        if (currentIndex !== panels.length - 1) transitionToService(panels.length - 1, 'next');
+        targetVirtualScroll = 5.0;
         return;
       }
 
       const progress = currentScrollIntoTrack / scrollableDist;
-      const targetIndex = Math.min(
-        panels.length - 1,
-        Math.max(0, Math.floor(progress * panels.length))
-      );
-
-      if (targetIndex !== currentIndex) {
-        transitionToService(targetIndex, targetIndex > currentIndex ? 'next' : 'prev');
-      }
+      targetVirtualScroll = progress * 5.0;
     }
 
-    // Attach PASSIVE scroll listener (never prevents natural scroll!)
     window.addEventListener('scroll', onWindowScroll, { passive: true });
+
+    // Programmatic Navigation to a specific Service Index (Clicks on pills, next/prev, or CTAs)
+    function navigateToServiceIndex(index) {
+      const targetIdx = Math.max(0, Math.min(5, index));
+
+      // Mobile or Short Viewport fallback: animate virtual scroll directly
+      if (window.innerWidth <= 768 || window.innerHeight <= 650) {
+        targetVirtualScroll = targetIdx;
+        return;
+      }
+
+      // Desktop: smoothly scroll native window to match sticky track position
+      isProgrammaticScroll = true;
+      clearTimeout(programmaticTimer);
+
+      const trackRect = scrollTrack.getBoundingClientRect();
+      const trackTop = trackRect.top + window.scrollY;
+      const trackHeight = scrollTrack.offsetHeight;
+      const stickyHeight = stickyStage.offsetHeight;
+      const scrollableDist = Math.max(1, trackHeight - stickyHeight);
+
+      const headerEl = document.querySelector('.site-header');
+      const headerHeight = headerEl ? headerEl.offsetHeight : 72;
+      const stickyTopOffset = headerHeight + 16;
+
+      // Position in plateau zone for target service
+      const targetFraction = (targetIdx + 0.08) / 5.08;
+      const targetY = trackTop - stickyTopOffset + (targetFraction * scrollableDist);
+
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+
+      targetVirtualScroll = targetIdx;
+
+      programmaticTimer = setTimeout(() => {
+        isProgrammaticScroll = false;
+      }, 700);
+    }
 
     // Ribbon pill clicks
     phasePills.forEach((pill, idx) => {
       pill.addEventListener('click', (e) => {
         e.preventDefault();
-        scrollToServiceIndex(idx);
+        navigateToServiceIndex(idx);
       });
     });
 
-    // In-panel next buttons (e.g. data-step-to="1")
+    // Delegated clicks inside calendar (e.g. data-step-to="X", or clicking card surface / wire rings)
     calendarContainer.addEventListener('click', (e) => {
       const stepBtn = e.target.closest('[data-step-to]');
       if (stepBtn) {
         e.preventDefault();
         const nextIdx = parseInt(stepBtn.getAttribute('data-step-to'), 10);
-        scrollToServiceIndex(nextIdx);
+        navigateToServiceIndex(nextIdx);
         return;
       }
 
-      const cardSurface = e.target.closest('.service-sheet-panel');
+      const cardSurface = e.target.closest('.leaf-face-front, .sheet-under');
       if (cardSurface && !e.target.closest('a') && !e.target.closest('button')) {
-        scrollToServiceIndex((currentIndex + 1) % panels.length);
+        navigateToServiceIndex((activeServiceIndex + 1) % 6);
       }
     });
 
@@ -4282,27 +4547,27 @@ textarea {
     if (nextBtn) {
       nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        scrollToServiceIndex(currentIndex + 1);
+        navigateToServiceIndex(activeServiceIndex + 1);
       });
     }
 
     if (prevBtn) {
       prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        scrollToServiceIndex(currentIndex - 1);
+        navigateToServiceIndex(activeServiceIndex - 1);
       });
     }
 
-    // Header Trigger
+    // Header Wire Binder Trigger Line
     if (tearTriggerLine) {
       tearTriggerLine.addEventListener('click', (e) => {
         e.preventDefault();
-        scrollToServiceIndex((currentIndex + 1) % panels.length);
+        navigateToServiceIndex((activeServiceIndex + 1) % 6);
       });
       tearTriggerLine.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          scrollToServiceIndex((currentIndex + 1) % panels.length);
+          navigateToServiceIndex((activeServiceIndex + 1) % 6);
         }
       });
     }
@@ -4314,9 +4579,9 @@ textarea {
       if (!inView) return;
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        scrollToServiceIndex(currentIndex + 1);
+        navigateToServiceIndex(activeServiceIndex + 1);
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        scrollToServiceIndex(currentIndex - 1);
+        navigateToServiceIndex(activeServiceIndex - 1);
       }
     });
 
@@ -4340,6 +4605,7 @@ textarea {
       });
     });
   }
+
   function initScrollSpy() {
     const navLinks = Array.from(
       document.querySelectorAll('.primary-nav .nav-link[href^="#"]')

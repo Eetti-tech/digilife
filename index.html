@@ -2085,175 +2085,86 @@ textarea {
   border-color: #DC2626;
 }
 
-/* Upwards Page-Lift / Turn Animations (strictly vertical upwards motion, no sideways) */
+/* Authentic Calendar Page Tear & Drop-Off Animation (matching Pinterest video reference: https://pin.it/4JxyLhFk4) */
 .calendar-desk-sheet.is-peeling-next {
-  animation: calendarSheetUpwardsNext 0.44s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  animation: calendarTearDropNext 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
   pointer-events: none !important;
+  z-index: 5 !important;
 }
 
-@keyframes calendarSheetUpwardsNext {
+@keyframes calendarTearDropNext {
   0% {
-    transform: translateY(0);
-    clip-path: inset(0 0 0 0);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     opacity: 1;
-    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+    box-shadow: 0 18px 45px rgba(16, 29, 53, 0.22);
   }
-  25% {
-    transform: translateY(-8px);
-    clip-path: inset(0 0 25% 0);
-    filter: drop-shadow(0 -8px 20px rgba(0,0,0,0.22));
+  20% {
+    /* Initial detachment from binder rings with slight tilt like reference video */
+    transform: translate(-10px, 30px) rotate(-6deg) scale(0.99);
+    opacity: 0.98;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
   }
-  60% {
-    transform: translateY(-16px);
-    clip-path: inset(0 0 65% 0);
-    filter: drop-shadow(0 -16px 30px rgba(0,0,0,0.32));
-  }
-  85% {
-    transform: translateY(-24px);
-    clip-path: inset(0 0 90% 0);
+  50% {
+    /* Swinging and dropping down like in reference video */
+    transform: translate(-25px, 110px) rotate(-14deg) scale(0.97);
     opacity: 0.85;
-    filter: drop-shadow(0 -22px 36px rgba(0,0,0,0.38));
+    box-shadow: 0 35px 65px rgba(0, 0, 0, 0.4);
+  }
+  80% {
+    transform: translate(-45px, 250px) rotate(-22deg) scale(0.94);
+    opacity: 0.4;
   }
   100% {
-    transform: translateY(-32px);
-    clip-path: inset(0 0 100% 0);
+    /* Dropped completely off the pad */
+    transform: translate(-70px, 140%) rotate(-30deg) scale(0.9);
     opacity: 0;
-    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
   }
 }
 
 .calendar-desk-sheet.is-unpeeling-prev {
-  animation: calendarSheetDownwardsPrev 0.44s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  animation: calendarTearFlyBackPrev 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   pointer-events: none !important;
+  z-index: 5 !important;
 }
 
-@keyframes calendarSheetDownwardsPrev {
+@keyframes calendarTearFlyBackPrev {
   0% {
-    transform: translateY(-32px);
-    clip-path: inset(0 0 100% 0);
+    transform: translate(-70px, 140%) rotate(-30deg) scale(0.9);
     opacity: 0;
-    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
   }
-  25% {
-    transform: translateY(-24px);
-    clip-path: inset(0 0 75% 0);
+  30% {
+    transform: translate(-45px, 230px) rotate(-22deg) scale(0.94);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translate(-15px, 45px) rotate(-8deg) scale(0.98);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+    box-shadow: 0 18px 45px rgba(16, 29, 53, 0.22);
+  }
+}
+
+/* Under sheet gentle scale reveal like in the video */
+.calendar-peel-stage.peeling-next .sheet-under {
+  animation: underSheetReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes underSheetReveal {
+  0% {
+    transform: scale(0.97) translateY(8px);
     opacity: 0.85;
-    filter: drop-shadow(0 -22px 36px rgba(0,0,0,0.38));
-  }
-  60% {
-    transform: translateY(-16px);
-    clip-path: inset(0 0 35% 0);
-    opacity: 1;
-    filter: drop-shadow(0 -16px 30px rgba(0,0,0,0.32));
-  }
-  85% {
-    transform: translateY(-8px);
-    clip-path: inset(0 0 10% 0);
-    opacity: 1;
-    filter: drop-shadow(0 -8px 20px rgba(0,0,0,0.22));
   }
   100% {
-    transform: translateY(0);
-    clip-path: inset(0 0 0 0);
+    transform: scale(1) translateY(0);
     opacity: 1;
-    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
   }
 }
 
-/* 3D Curled Paper Roll Overlay (Moving Straight Upwards) */
 .peel-curl-wrapper {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 60px;
-  bottom: 0;
-  z-index: 10;
-  pointer-events: none;
-  overflow: visible;
-  opacity: 0;
-}
-
-.calendar-peel-stage.peeling-next .peel-curl-wrapper {
-  animation: curlRollUpwardsNext 0.44s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.calendar-peel-stage.unpeeling-prev .peel-curl-wrapper {
-  animation: curlRollDownwardsPrev 0.44s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes curlRollUpwardsNext {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scaleY(0.5);
-    bottom: 0;
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-    bottom: 20%;
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1.1);
-    bottom: 55%;
-  }
-  85% {
-    opacity: 1;
-    transform: translateY(0) scaleY(0.9);
-    bottom: 85%;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px) scaleY(0.5);
-    bottom: 105%;
-  }
-}
-
-@keyframes curlRollDownwardsPrev {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scaleY(0.5);
-    bottom: 105%;
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(0) scaleY(0.9);
-    bottom: 85%;
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1.1);
-    bottom: 55%;
-  }
-  85% {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-    bottom: 20%;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(20px) scaleY(0.5);
-    bottom: 0;
-  }
-}
-
-.peel-curl-flap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 55px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, #FFFFFF 30%, #E2E8F0 65%, #94A3B8 100%);
-  border-radius: 6px 6px 0 0;
-  box-shadow: 0 -16px 30px rgba(0, 0, 0, 0.38), 0 8px 18px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  border-top: 1px solid rgba(226, 231, 240, 0.9);
-}
-
-.peel-curl-shadow {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 50%, transparent 100%);
+  display: none !important;
 }
 
 /* Calendar Bottom Controls Bar */

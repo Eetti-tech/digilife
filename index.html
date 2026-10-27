@@ -2136,81 +2136,90 @@ textarea {
   border-color: #DC2626;
 }
 
-/* Authentic Calendar Page Tear & Drop-Off Animation (Smooth & Responsive, matching Pinterest reference) */
+/* Authentic Calendar 3D Page Flip Upwards Animation (matching Pinterest reference: https://pin.it/5AtyYdCZb) */
 .calendar-desk-sheet.is-peeling-next {
-  animation: calendarTearDropNext 0.36s cubic-bezier(0.2, 0.8, 0.22, 1) forwards !important;
+  transform-origin: top center !important;
+  animation: calendarPageFlipUpNext 0.40s cubic-bezier(0.25, 0.9, 0.28, 1) forwards !important;
   pointer-events: none !important;
   z-index: 5 !important;
   will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-@keyframes calendarTearDropNext {
+@keyframes calendarPageFlipUpNext {
   0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: perspective(1400px) rotateX(0deg) translateY(0);
     opacity: 1;
-    box-shadow: 0 18px 45px rgba(16, 29, 53, 0.22);
+    box-shadow: 0 20px 48px rgba(16, 29, 53, 0.22);
   }
-  22% {
-    /* Initial detachment from binder rings with slight tilt */
-    transform: translate3d(-10px, 24px, 0) rotate(-5deg);
+  25% {
+    /* Bottom curls and lifts upwards in 3D towards the viewer */
+    transform: perspective(1400px) rotateX(32deg) translateY(-10px) translateZ(12px);
     opacity: 0.98;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.32);
   }
-  50% {
-    /* Swinging and dropping down smoothly */
-    transform: translate3d(-24px, 100px, 0) rotate(-13deg);
-    opacity: 0.88;
-    box-shadow: 0 35px 65px rgba(0, 0, 0, 0.4);
+  55% {
+    /* Page flipping upward around the top spiral rings */
+    transform: perspective(1400px) rotateX(76deg) translateY(-32px) translateZ(28px);
+    opacity: 0.92;
+    box-shadow: 0 45px 80px rgba(0, 0, 0, 0.38);
   }
-  78% {
-    transform: translate3d(-44px, 225px, 0) rotate(-21deg);
-    opacity: 0.45;
+  80% {
+    /* Passing the top vertical threshold */
+    transform: perspective(1400px) rotateX(120deg) translateY(-65px) translateZ(10px);
+    opacity: 0.55;
   }
   100% {
-    /* Dropped completely off the pad */
-    transform: translate3d(-68px, 138%, 0) rotate(-28deg);
+    /* Fully flipped over the top binder out of view */
+    transform: perspective(1400px) rotateX(165deg) translateY(-105px) translateZ(-20px);
     opacity: 0;
   }
 }
 
 .calendar-desk-sheet.is-unpeeling-prev {
-  animation: calendarTearFlyBackPrev 0.36s cubic-bezier(0.18, 0.9, 0.28, 1) forwards !important;
+  transform-origin: top center !important;
+  animation: calendarPageFlipDownPrev 0.40s cubic-bezier(0.25, 0.9, 0.28, 1) forwards !important;
   pointer-events: none !important;
   z-index: 5 !important;
   will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-@keyframes calendarTearFlyBackPrev {
+@keyframes calendarPageFlipDownPrev {
   0% {
-    transform: translate3d(-68px, 138%, 0) rotate(-28deg);
+    transform: perspective(1400px) rotateX(165deg) translateY(-105px) translateZ(-20px);
     opacity: 0;
   }
   28% {
-    transform: translate3d(-44px, 215px, 0) rotate(-21deg);
-    opacity: 0.5;
+    transform: perspective(1400px) rotateX(115deg) translateY(-60px) translateZ(10px);
+    opacity: 0.55;
   }
-  68% {
-    transform: translate3d(-14px, 40px, 0) rotate(-7deg);
+  60% {
+    transform: perspective(1400px) rotateX(55deg) translateY(-22px) translateZ(25px);
     opacity: 0.92;
   }
+  82% {
+    transform: perspective(1400px) rotateX(18deg) translateY(-6px) translateZ(10px);
+    opacity: 0.98;
+  }
   100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: perspective(1400px) rotateX(0deg) translateY(0) translateZ(0);
     opacity: 1;
-    box-shadow: 0 18px 45px rgba(16, 29, 53, 0.22);
+    box-shadow: 0 20px 48px rgba(16, 29, 53, 0.22);
   }
 }
 
-/* Under sheet gentle scale reveal */
+/* Under sheet gentle scale reveal like in the reference video */
 .calendar-peel-stage.peeling-next .sheet-under {
-  animation: underSheetReveal 0.36s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  animation: underSheetReveal 0.40s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes underSheetReveal {
   0% {
-    transform: translate3d(0, 8px, 0) scale(0.978);
-    opacity: 0.88;
-    filter: brightness(0.96);
+    transform: translate3d(0, 10px, 0) scale(0.978);
+    opacity: 0.85;
+    filter: brightness(0.94);
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -3934,7 +3943,7 @@ textarea {
 
           isFlipping = false;
           isWheelLocked = false;
-        }, 360);
+        }, 400);
       } else {
         // Reverse peel
         renderUnderSheet(currentIndex);
@@ -3956,7 +3965,7 @@ textarea {
 
           isFlipping = false;
           isWheelLocked = false;
-        }, 360);
+        }, 400);
       }
     }
 
@@ -4019,7 +4028,7 @@ textarea {
 
     let isWheelLocked = false;
     let wheelCooldownTimer = null;
-    const WHEEL_COOLDOWN_MS = 360;
+    const WHEEL_COOLDOWN_MS = 400;
 
     // Scroll-On-Calendar: Highly responsive & smooth, strictly ONE service per scroll flick
     function handleWheelScroll(e) {

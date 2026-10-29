@@ -1,7 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 44" fill="none" role="img" aria-label="DigiLife">
-  <!-- Leaf sprout above the second 'i' -->
-  <path d="M111.5 11.5C111.5 6.5 116.5 3 122 3.5C121.5 9 117.5 12 111.5 11.5Z" fill="#A6E22E"/>
-  <path d="M110.8 11.8C107.5 8.8 104 8.5 101.5 10C103.5 13 107.2 13.5 110.8 11.8Z" fill="#7CB518"/>
-  <!-- DigiLife Typography -->
-  <text x="2" y="34" fill="#101D35" font-family="Manrope, -apple-system, BlinkMacSystemFont, sans-serif" font-size="31" font-weight="800" letter-spacing="-0.035em">DigiL&#305;fe</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 52" fill="none" role="img" aria-label="DigiLeaf">
+  <!-- Double Leaf Emblem -->
+  <g transform="translate(2, 6)">
+    <!-- Main curved leaf -->
+    <path d="M28 2C14 4 4 16 3 32C18 33 32 23 34 8C34 5.5 32 3 28 2Z" fill="#15803D"/>
+    <!-- Overlapping bright lime leaf -->
+    <path d="M22 14C11 18 6 27 5 36C17 36 28 29 29 18C29 16 26.5 14.5 22 14Z" fill="#22C55E" opacity="0.9"/>
+    <!-- Subtle leaf vein highlight -->
+    <path d="M6 35C14 26 21 16 27 6" stroke="#DCFCE7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="44" y="32" fill="#0F3B3C" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.03em">Digi<tspan fill="#16A34A">Leaf</tspan></text>
+  <!-- Tagline -->
+  <text x="45" y="44" fill="#0D9488" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em">BUILD. BRAND. GROW.</text>
 </svg>

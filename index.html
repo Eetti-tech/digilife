@@ -440,7 +440,7 @@
       font-weight: 400;
     }
 
-    /* 3D Coverflow Container */
+    /* 3D Coverflow Container with Rich Animations */
     .carousel-wrapper {
       position: relative;
       width: 100%;
@@ -454,11 +454,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 480px;
+      min-height: 490px;
       perspective: 1200px;
       perspective-origin: 50% 50%;
       touch-action: pan-y;
       user-select: none;
+      cursor: grab;
+    }
+
+    .carousel-stage:active {
+      cursor: grabbing;
     }
 
     .carousel-track {
@@ -469,7 +474,7 @@
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
-      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     /* The Service Card */
@@ -483,10 +488,10 @@
       overflow: visible;
       cursor: pointer;
       transform-origin: center center;
-      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
-                  box-shadow 0.45s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-color 0.45s cubic-bezier(0.25, 1, 0.5, 1),
-                  opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.4s ease,
+                  opacity 0.5s ease;
       will-change: transform, box-shadow, opacity;
     }
 
@@ -499,15 +504,51 @@
       background: #E8F5F3;
     }
 
+    /* Sheen sweep animation across active & hovered cards */
+    .card-artwork-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -130%;
+      width: 80%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.38) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: skewX(-24deg);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .service-card.is-active .card-artwork-box::before {
+      animation: cardSheenSweep 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes cardSheenSweep {
+      0%, 25% {
+        left: -130%;
+      }
+      55%, 100% {
+        left: 230%;
+      }
+    }
+
     .card-artwork-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .service-card:hover .card-artwork-img {
-      transform: scale(1.05);
+      transform: scale(1.07);
+    }
+
+    .service-card.is-active .card-artwork-img {
+      transform: scale(1.03);
     }
 
     /* Floating Circle Icon Badge */
@@ -527,7 +568,7 @@
       justify-content: center;
       z-index: 10;
       color: var(--color-white);
-      transition: var(--transition-smooth);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .card-badge-circle svg {
@@ -550,19 +591,41 @@
       font-weight: 700;
       color: var(--color-teal-dark);
       line-height: 1.32;
-      transition: color 0.25s ease;
+      transition: color 0.3s ease;
     }
 
-    /* Active Highlighted Center Card */
+    /* Breathing Neon Emerald Pulse on Active Center Card */
+    @keyframes activeGlowPulse {
+      0%, 100% {
+        box-shadow: 0 20px 48px rgba(15, 55, 56, 0.16), 0 0 22px rgba(16, 185, 129, 0.32);
+      }
+      50% {
+        box-shadow: 0 26px 58px rgba(15, 55, 56, 0.22), 0 0 38px rgba(16, 185, 129, 0.58);
+      }
+    }
+
+    @keyframes badgeSpringPop {
+      0% {
+        transform: translateX(-50%) scale(0.82);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.18);
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
     .service-card.is-active {
       border: 2px solid var(--color-emerald);
-      box-shadow: 0 20px 48px rgba(15, 55, 56, 0.16), 0 0 28px rgba(16, 185, 129, 0.38);
+      animation: activeGlowPulse 3.2s ease-in-out infinite;
       z-index: 30 !important;
     }
 
     .service-card.is-active .card-badge-circle {
-      background: var(--color-emerald);
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.45);
+      background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-emerald-dark) 100%);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.48);
+      animation: badgeSpringPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .service-card.is-active .card-service-title {
@@ -570,7 +633,7 @@
       font-weight: 800;
     }
 
-    /* Circular Navigation Arrows */
+    /* Circular Navigation Arrows with Interactive Bounce */
     .carousel-nav-btn {
       position: absolute;
       top: 50%;
@@ -588,15 +651,19 @@
       font-size: 1.25rem;
       cursor: pointer;
       z-index: 40;
-      transition: var(--transition-smooth);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .carousel-nav-btn:hover {
-      background: var(--color-teal-dark);
+      background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-emerald-dark) 100%);
       color: var(--color-white);
-      border-color: var(--color-teal-dark);
-      box-shadow: 0 8px 24px rgba(15, 55, 56, 0.24);
-      transform: translateY(-50%) scale(1.08);
+      border-color: var(--color-emerald);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.42);
+      transform: translateY(-50%) scale(1.12);
+    }
+
+    .carousel-nav-btn:active {
+      transform: translateY(-50%) scale(0.96);
     }
 
     .carousel-nav-btn.prev-btn {
@@ -623,14 +690,14 @@
       background: #CBD5E1;
       border: none;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .carousel-dot.is-active {
       background: var(--color-emerald);
-      width: 24px;
+      width: 26px;
       border-radius: var(--radius-full);
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
     }
 
     /* --------------------------------------------------------------------------
@@ -864,14 +931,14 @@
     }
 
     /* --------------------------------------------------------------------------
-       DEDICATED CONTACT US SECTION (EXACT REFERENCE REPLICATION)
+       DEDICATED CONTACT US SECTION (HARMONIZED DIGILEAF THEME)
        -------------------------------------------------------------------------- */
     .contact-section {
       position: relative;
       padding-top: clamp(4.5rem, 7vw, 6.5rem);
       padding-bottom: clamp(5rem, 8vw, 7.5rem);
-      background: #F8FAFC;
-      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      background: linear-gradient(180deg, #F4FAF9 0%, #EAF7F4 50%, #E2F3F0 100%);
+      border-top: 1px solid rgba(13, 148, 136, 0.14);
       overflow: hidden;
     }
 
@@ -894,7 +961,7 @@
       font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.22em;
-      color: #334155;
+      color: var(--color-teal-subtle);
       text-transform: uppercase;
       margin-bottom: 1.15rem;
     }
@@ -903,7 +970,7 @@
       display: inline-block;
       width: 26px;
       height: 2.5px;
-      background: #84CC16;
+      background: var(--color-emerald);
       border-radius: 2px;
     }
 
@@ -911,16 +978,22 @@
       font-family: var(--font-heading);
       font-size: clamp(2.3rem, 3.8vw, 3.2rem);
       font-weight: 800;
-      color: #0F172A;
+      color: var(--color-teal-dark);
       line-height: 1.18;
       letter-spacing: -0.03em;
       margin-bottom: 1.25rem;
     }
 
+    .contact-heading .highlight-accent {
+      color: var(--color-emerald-dark);
+      position: relative;
+      display: inline-block;
+    }
+
     .contact-subtitle {
       font-size: 1rem;
       line-height: 1.6;
-      color: #475569;
+      color: var(--color-text-muted);
       max-width: 440px;
       margin-bottom: 2.5rem;
     }
@@ -942,47 +1015,49 @@
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: #0F172A;
+      background: var(--color-teal-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #A3E635;
+      color: var(--color-emerald);
       flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+      box-shadow: 0 4px 14px rgba(15, 55, 56, 0.18);
       transition: var(--transition-smooth);
     }
 
     .contact-icon-bubble svg {
       width: 20px;
       height: 20px;
-      stroke: #A3E635;
+      stroke: var(--color-emerald);
       stroke-width: 2;
+      transition: stroke 0.3s ease;
     }
 
     .contact-info-card:hover .contact-icon-bubble {
-      background: #10B981;
+      background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-emerald-dark) 100%);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.42);
       transform: translateY(-2px);
     }
 
     .contact-info-card:hover .contact-icon-bubble svg {
-      stroke: #FFFFFF;
+      stroke: var(--color-white);
     }
 
     .contact-info-title {
       font-family: var(--font-heading);
       font-size: 0.95rem;
       font-weight: 700;
-      color: #0F172A;
+      color: var(--color-teal-dark);
       margin-bottom: 0.15rem;
     }
 
     .contact-info-value {
       font-size: 0.88rem;
-      color: #64748B;
+      color: var(--color-text-muted);
     }
 
     .contact-info-value a:hover {
-      color: #0F172A;
+      color: var(--color-teal-dark);
       text-decoration: underline;
     }
 
@@ -991,8 +1066,8 @@
       background: var(--color-white);
       border-radius: var(--radius-lg);
       padding: clamp(2rem, 3.5vw, 2.75rem);
-      box-shadow: 0 24px 55px rgba(15, 23, 42, 0.08);
-      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 24px 55px rgba(15, 55, 56, 0.08);
+      border: 1px solid rgba(13, 148, 136, 0.16);
       position: relative;
     }
 
@@ -1007,20 +1082,21 @@
       font-family: var(--font-heading);
       font-size: 1.35rem;
       font-weight: 800;
-      color: #0F172A;
+      color: var(--color-teal-dark);
       letter-spacing: -0.015em;
     }
 
     .demo-form-badge {
       display: inline-block;
-      background: #ECFCCB;
-      color: #4D7C0F;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--color-emerald-dark);
       font-family: var(--font-heading);
       font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.06em;
       padding: 0.28rem 0.65rem;
       border-radius: var(--radius-full);
+      border: 1px solid rgba(16, 185, 129, 0.25);
       text-transform: uppercase;
     }
 
@@ -1041,7 +1117,7 @@
     .contact-field-group label {
       font-size: 0.84rem;
       font-weight: 700;
-      color: #334155;
+      color: var(--color-teal-dark);
     }
 
     .contact-field-group input,
@@ -1049,18 +1125,18 @@
     .contact-field-group textarea {
       width: 100%;
       padding: 0.8rem 1rem;
-      border: 1px solid #E2E8F0;
+      border: 1px solid rgba(15, 55, 56, 0.16);
       border-radius: var(--radius-sm);
       font-family: inherit;
       font-size: 0.92rem;
-      color: #0F172A;
+      color: var(--color-teal-dark);
       background: #FFFFFF;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .contact-field-group input::placeholder,
     .contact-field-group textarea::placeholder {
-      color: #94A3B8;
+      color: var(--color-text-light);
     }
 
     .contact-field-group select {
@@ -1072,32 +1148,32 @@
     .contact-field-group select:focus,
     .contact-field-group textarea:focus {
       outline: none;
-      border-color: #84CC16;
-      box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+      border-color: var(--color-emerald);
+      box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.18);
     }
 
     .btn-send-message {
       width: 100%;
-      padding: 0.9rem;
-      background: #A3E635;
-      color: #0F172A;
+      padding: 0.95rem 1.5rem;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #FFFFFF;
       font-family: var(--font-heading);
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       font-weight: 800;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-full);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(163, 230, 53, 0.35);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
       transition: var(--transition-smooth);
     }
 
     .btn-send-message:hover {
-      background: #84CC16;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(132, 204, 22, 0.45);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
     }
 
     .btn-send-message .arrow {
@@ -1112,7 +1188,7 @@
     .form-disclaimer-note {
       text-align: center;
       font-size: 0.76rem;
-      color: #94A3B8;
+      color: var(--color-text-light);
       margin-top: 1rem;
       line-height: 1.45;
     }
@@ -1121,7 +1197,7 @@
       display: none;
       margin-top: 1.25rem;
       background: #ECFCCB;
-      border: 1px solid #BEF264;
+      border: 1px solid #A3E635;
       border-radius: var(--radius-sm);
       padding: 0.85rem 1rem;
       text-align: center;
@@ -1735,7 +1811,7 @@
           </div>
 
           <h2 class="contact-heading" id="contact-heading">
-            Let's Discuss Your<br>Business Requirements
+            Let's Discuss Your<br><span class="highlight-accent">Business Requirements</span>
           </h2>
 
           <p class="contact-subtitle">
@@ -2028,15 +2104,19 @@
         }
       ];
 
-      // 3. 3D Coverflow Carousel Logic
+      // 3. 3D Coverflow Carousel Logic & Interactive Animation Suite
       const track = document.getElementById('carousel-track');
       const cards = Array.from(track.querySelectorAll('.service-card'));
       const dots = Array.from(document.querySelectorAll('.carousel-dot'));
       const prevBtn = document.getElementById('carousel-prev-btn');
       const nextBtn = document.getElementById('carousel-next-btn');
+      const stage = document.getElementById('carousel-stage');
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
       const totalCards = cards.length;
 
       let activeIndex = 2; // Default to Digital Marketing (center active card)
+      let autoPlayTimer = null;
+      let isInteracting = false;
 
       function updateCoverflow() {
         const isMobile = window.innerWidth < 768;
@@ -2048,12 +2128,12 @@
 
           if (offset === 0) {
             // Active Center Card
-            card.style.transform = `translateX(0px) translateZ(80px) scale(1.08) rotateY(0deg)`;
+            card.style.transform = `translateX(0px) translateZ(85px) scale(1.08) rotateY(0deg)`;
             card.style.zIndex = '30';
             card.style.opacity = '1';
             card.classList.add('is-active');
           } else {
-            // Side Cards with 3D depth and slight rotation
+            // Side Cards with 3D depth and subtle rotation
             card.classList.remove('is-active');
             const sign = offset > 0 ? 1 : -1;
             const translateX = offset * spacing;
@@ -2080,16 +2160,55 @@
         updateCoverflow();
       }
 
+      function nextSlide() {
+        goToIndex(activeIndex < totalCards - 1 ? activeIndex + 1 : 0);
+      }
+
+      function prevSlide() {
+        goToIndex(activeIndex > 0 ? activeIndex - 1 : totalCards - 1);
+      }
+
+      // Autoplay with intelligent pause on hover/interaction
+      function startAutoplay() {
+        stopAutoplay();
+        autoPlayTimer = setInterval(() => {
+          if (!isInteracting && document.visibilityState === 'visible') {
+            nextSlide();
+          }
+        }, 4500);
+      }
+
+      function stopAutoplay() {
+        if (autoPlayTimer) {
+          clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      if (carouselWrapper) {
+        carouselWrapper.addEventListener('mouseenter', () => {
+          isInteracting = true;
+          stopAutoplay();
+        });
+
+        carouselWrapper.addEventListener('mouseleave', () => {
+          isInteracting = false;
+          startAutoplay();
+        });
+      }
+
       // Button listeners
       if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-          goToIndex(activeIndex > 0 ? activeIndex - 1 : totalCards - 1);
+          prevSlide();
+          startAutoplay();
         });
       }
 
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-          goToIndex(activeIndex < totalCards - 1 ? activeIndex + 1 : 0);
+          nextSlide();
+          startAutoplay();
         });
       }
 
@@ -2100,6 +2219,25 @@
             openServiceModal(index);
           } else {
             goToIndex(index);
+            startAutoplay();
+          }
+        });
+
+        // 3D Mouse Parallax Tilt on Active Card
+        card.addEventListener('mousemove', (e) => {
+          if (index !== activeIndex) return;
+          const rect = card.getBoundingClientRect();
+          const cardX = e.clientX - rect.left - rect.width / 2;
+          const cardY = e.clientY - rect.top - rect.height / 2;
+          const rotateY = (cardX / (rect.width / 2)) * 6; // max 6deg
+          const rotateX = -(cardY / (rect.height / 2)) * 5; // max 5deg
+
+          card.style.transform = `translateX(0px) translateZ(85px) scale(1.08) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          if (index === activeIndex) {
+            card.style.transform = `translateX(0px) translateZ(85px) scale(1.08) rotateY(0deg)`;
           }
         });
       });
@@ -2108,46 +2246,115 @@
       dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
           goToIndex(index);
+          startAutoplay();
         });
       });
 
-      // Touch / Swipe Navigation
-      let touchStartX = 0;
-      let touchStartY = 0;
-      const stage = document.getElementById('carousel-stage');
+      // Mouse Wheel Navigation over Stage (Smooth debounced horizontal step)
+      let wheelDebounceTimeout = null;
+      stage.addEventListener('wheel', (e) => {
+        const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (Math.abs(delta) < 20) return;
 
-      stage.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
+        // Prevent default only if we are acting on the carousel
+        if (wheelDebounceTimeout) return;
+
+        wheelDebounceTimeout = setTimeout(() => {
+          wheelDebounceTimeout = null;
+        }, 280);
+
+        if (delta > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+        startAutoplay();
       }, { passive: true });
 
-      stage.addEventListener('touchend', (e) => {
-        const diffX = touchStartX - e.changedTouches[0].clientX;
-        const diffY = touchStartY - e.changedTouches[0].clientY;
+      // Drag & Flick Gesture Navigation (Mouse & Touch)
+      let dragStartX = 0;
+      let isDragging = false;
+      let dragMoved = false;
 
-        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-          if (diffX > 0) {
-            goToIndex(activeIndex < totalCards - 1 ? activeIndex + 1 : 0);
+      function onDragStart(clientX) {
+        dragStartX = clientX;
+        isDragging = true;
+        dragMoved = false;
+        stopAutoplay();
+      }
+
+      function onDragMove(clientX) {
+        if (!isDragging) return;
+        const diff = clientX - dragStartX;
+        if (Math.abs(diff) > 10) {
+          dragMoved = true;
+        }
+      }
+
+      function onDragEnd(clientX) {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = clientX - dragStartX;
+        if (Math.abs(diff) > 45) {
+          if (diff < 0) {
+            nextSlide();
           } else {
-            goToIndex(activeIndex > 0 ? activeIndex - 1 : totalCards - 1);
+            prevSlide();
           }
+        }
+        startAutoplay();
+      }
+
+      // Mouse Drag Events
+      stage.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.carousel-nav-btn')) return;
+        onDragStart(e.clientX);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isDragging) onDragMove(e.clientX);
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (isDragging) onDragEnd(e.clientX);
+      });
+
+      // Touch Events
+      stage.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          onDragStart(e.touches[0].clientX);
         }
       }, { passive: true });
 
-      // Keyboard arrow keys when in view
+      stage.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches.length === 1) {
+          onDragMove(e.touches[0].clientX);
+        }
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length > 0) {
+          onDragEnd(e.changedTouches[0].clientX);
+        }
+      }, { passive: true });
+
+      // Keyboard arrow keys when carousel is in viewport
       window.addEventListener('keydown', (e) => {
         const rect = stage.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           if (e.key === 'ArrowLeft') {
-            goToIndex(activeIndex > 0 ? activeIndex - 1 : totalCards - 1);
+            prevSlide();
+            startAutoplay();
           } else if (e.key === 'ArrowRight') {
-            goToIndex(activeIndex < totalCards - 1 ? activeIndex + 1 : 0);
+            nextSlide();
+            startAutoplay();
           }
         }
       });
 
       window.addEventListener('resize', updateCoverflow);
       updateCoverflow();
+      startAutoplay();
 
       // 4. Modal Interactions
       const modal = document.getElementById('service-modal');

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="DigiLeaf — Turn Your Business Into a Strong Brand. End-to-end business solutions to help you build, grow and succeed.">
+  <meta name="description" content="DigiLeaf — Turn Your Business Into a Strong Brand. End-to-end business solutions from registration and branding to websites and marketing.">
   <title>DigiLeaf | Turn Your Business Into a Strong Brand</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,9 @@
       --color-emerald: #10B981;
       --color-emerald-dark: #059669;
       --color-emerald-light: #34D399;
-      --color-mint: #C6F36B;
+      --color-lime: #A3E635;
+      --color-lime-dark: #65A30D;
+      --color-lime-light: #ECFCCB;
       --color-text-main: #0F3738;
       --color-text-muted: #4B6364;
       --color-text-light: #64748B;
@@ -37,7 +39,7 @@
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --shadow-sm: 0 4px 12px rgba(15, 55, 56, 0.06);
       --shadow-md: 0 10px 25px rgba(15, 55, 56, 0.08);
-      --shadow-lg: 0 18px 45px rgba(15, 55, 56, 0.12);
+      --shadow-lg: 0 20px 48px rgba(15, 55, 56, 0.12);
       --shadow-glow: 0 0 32px rgba(16, 185, 129, 0.35);
       --radius-sm: 0.5rem;
       --radius-md: 1rem;
@@ -102,7 +104,7 @@
 
     .site-header.is-scrolled {
       position: fixed;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 4px 20px rgba(15, 55, 56, 0.07);
@@ -235,7 +237,7 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 35%, rgba(255, 255, 255, 0) 65%, rgba(255, 255, 255, 0.4) 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 35%, rgba(255, 255, 255, 0) 65%, rgba(255, 255, 255, 0.45) 100%);
       pointer-events: none;
     }
 
@@ -337,7 +339,6 @@
       transform: scale(1.03);
     }
 
-    /* Water Ripple Effect beneath Orb */
     .orb-water-ripple {
       position: absolute;
       bottom: -6%;
@@ -361,7 +362,6 @@
       }
     }
 
-    /* Smooth Wave Curve Divider at bottom of Hero */
     .hero-wave-divider {
       position: absolute;
       bottom: -1px;
@@ -385,7 +385,7 @@
     }
 
     /* --------------------------------------------------------------------------
-       SERVICES SECTION & 3D COVERFLOW CAROUSEL
+       SERVICES SECTION & 3D COVERFLOW CAROUSEL (HIGH-DEF GRAPHICS)
        -------------------------------------------------------------------------- */
     .services-section {
       position: relative;
@@ -479,7 +479,7 @@
       background: var(--color-white);
       border-radius: var(--radius-lg);
       box-shadow: 0 12px 32px rgba(15, 55, 56, 0.09);
-      border: 1px solid rgba(13, 148, 136, 0.14);
+      border: 1px solid rgba(13, 148, 136, 0.16);
       overflow: visible;
       cursor: pointer;
       transform-origin: center center;
@@ -634,24 +634,135 @@
     }
 
     /* --------------------------------------------------------------------------
-       WHY DIGILEAF SECTION ("YOUR SUCCESS IS OUR PRIORITY")
+       ENRICHED ABOUT US SECTION & WHY DIGILEAF
        -------------------------------------------------------------------------- */
-    .why-section {
+    .about-section {
       position: relative;
-      padding-top: clamp(4rem, 6.5vw, 6rem);
+      padding-top: clamp(4.5rem, 7vw, 6.5rem);
       padding-bottom: clamp(4.5rem, 7vw, 6.5rem);
-      background: linear-gradient(90deg, #E8F5F2 0%, #EFF9F7 45%, #E5F3F0 100%);
+      background: linear-gradient(180deg, #FFFFFF 0%, #F3FAF8 50%, #E8F5F2 100%);
       overflow: hidden;
-      border-top: 1px solid rgba(13, 148, 136, 0.12);
+      border-top: 1px solid rgba(13, 148, 136, 0.1);
     }
 
-    /* Soft coastal background overlay on the left */
+    .about-narrative-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .about-lead-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 3.4vw, 2.9rem);
+      font-weight: 800;
+      color: var(--color-teal-dark);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-lead-desc {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--color-text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-story-quote {
+      border-left: 3.5px solid var(--color-emerald);
+      padding-left: 1.25rem;
+      font-size: 0.95rem;
+      color: var(--color-teal-dark);
+      font-style: italic;
+      line-height: 1.6;
+      background: rgba(16, 185, 129, 0.05);
+      padding-block: 0.75rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .about-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .about-pillar-card {
+      background: var(--color-white);
+      padding: 1.4rem 1.3rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(13, 148, 136, 0.14);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+    }
+
+    .about-pillar-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-emerald);
+    }
+
+    .pillar-num {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--color-emerald);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .pillar-heading {
+      font-family: var(--font-heading);
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--color-teal-dark);
+      margin-bottom: 0.35rem;
+    }
+
+    .pillar-body {
+      font-size: 0.84rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* Trust Metrics Strip */
+    .about-stats-strip {
+      background: var(--color-teal-dark);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      color: var(--color-white);
+      text-align: center;
+      margin-bottom: 4.5rem;
+      box-shadow: 0 14px 36px rgba(10, 39, 40, 0.18);
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 3.2vw, 2.75rem);
+      font-weight: 800;
+      color: var(--color-mint);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 500;
+    }
+
+    /* Why DigiLeaf 3 Features Row */
     .why-coast-bg {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: clamp(260px, 35vw, 440px);
-      height: 100%;
+      height: 380px;
       background: url('assets/ref_crops/why_coast_ref.jpg') left center / cover no-repeat;
       opacity: 0.35;
       mix-blend-mode: multiply;
@@ -667,29 +778,6 @@
       gap: 3.5rem;
       position: relative;
       z-index: 10;
-    }
-
-    .why-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      font-family: var(--font-heading);
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.22em;
-      color: var(--color-teal-subtle);
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .why-eyebrow::before,
-    .why-eyebrow::after {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 1.5px;
-      background: var(--color-teal-subtle);
-      opacity: 0.65;
     }
 
     .why-title {
@@ -718,7 +806,6 @@
       border-radius: var(--radius-full);
     }
 
-    /* 3 Feature Pillars */
     .why-features-row {
       display: flex;
       align-items: flex-start;
@@ -774,6 +861,273 @@
       font-size: 0.85rem;
       color: var(--color-text-muted);
       line-height: 1.45;
+    }
+
+    /* --------------------------------------------------------------------------
+       DEDICATED CONTACT US SECTION (EXACT REFERENCE REPLICATION)
+       -------------------------------------------------------------------------- */
+    .contact-section {
+      position: relative;
+      padding-top: clamp(4.5rem, 7vw, 6.5rem);
+      padding-bottom: clamp(5rem, 8vw, 7.5rem);
+      background: #F8FAFC;
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      overflow: hidden;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      align-items: flex-start;
+      gap: 3.5rem;
+    }
+
+    .contact-left-content {
+      padding-top: 1rem;
+    }
+
+    .contact-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: #334155;
+      text-transform: uppercase;
+      margin-bottom: 1.15rem;
+    }
+
+    .contact-eyebrow-dash {
+      display: inline-block;
+      width: 26px;
+      height: 2.5px;
+      background: #84CC16;
+      border-radius: 2px;
+    }
+
+    .contact-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(2.3rem, 3.8vw, 3.2rem);
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .contact-subtitle {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #475569;
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2.25rem;
+    }
+
+    .contact-info-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-icon-bubble {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #0F172A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #A3E635;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+      transition: var(--transition-smooth);
+    }
+
+    .contact-icon-bubble svg {
+      width: 20px;
+      height: 20px;
+      stroke: #A3E635;
+      stroke-width: 2;
+    }
+
+    .contact-info-card:hover .contact-icon-bubble {
+      background: #10B981;
+      transform: translateY(-2px);
+    }
+
+    .contact-info-card:hover .contact-icon-bubble svg {
+      stroke: #FFFFFF;
+    }
+
+    .contact-info-title {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-info-value {
+      font-size: 0.88rem;
+      color: #64748B;
+    }
+
+    .contact-info-value a:hover {
+      color: #0F172A;
+      text-decoration: underline;
+    }
+
+    /* The White Form Card */
+    .contact-form-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: clamp(2rem, 3.5vw, 2.75rem);
+      box-shadow: 0 24px 55px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      position: relative;
+    }
+
+    .form-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-card-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.015em;
+    }
+
+    .demo-form-badge {
+      display: inline-block;
+      background: #ECFCCB;
+      color: #4D7C0F;
+      font-family: var(--font-heading);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 0.28rem 0.65rem;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+
+    .form-grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.15rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .contact-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .contact-field-group label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .contact-field-group input,
+    .contact-field-group select,
+    .contact-field-group textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #0F172A;
+      background: #FFFFFF;
+      transition: all 0.2s ease;
+    }
+
+    .contact-field-group input::placeholder,
+    .contact-field-group textarea::placeholder {
+      color: #94A3B8;
+    }
+
+    .contact-field-group select {
+      cursor: pointer;
+      appearance: auto;
+    }
+
+    .contact-field-group input:focus,
+    .contact-field-group select:focus,
+    .contact-field-group textarea:focus {
+      outline: none;
+      border-color: #84CC16;
+      box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+    }
+
+    .btn-send-message {
+      width: 100%;
+      padding: 0.9rem;
+      background: #A3E635;
+      color: #0F172A;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(163, 230, 53, 0.35);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-send-message:hover {
+      background: #84CC16;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(132, 204, 22, 0.45);
+    }
+
+    .btn-send-message .arrow {
+      font-size: 1.1rem;
+      transition: transform 0.25s ease;
+    }
+
+    .btn-send-message:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .form-disclaimer-note {
+      text-align: center;
+      font-size: 0.76rem;
+      color: #94A3B8;
+      margin-top: 1rem;
+      line-height: 1.45;
+    }
+
+    .form-success-banner {
+      display: none;
+      margin-top: 1.25rem;
+      background: #ECFCCB;
+      border: 1px solid #BEF264;
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      text-align: center;
+      color: #365314;
+      font-size: 0.9rem;
+      font-weight: 700;
     }
 
     /* --------------------------------------------------------------------------
@@ -961,36 +1315,6 @@
       flex-shrink: 0;
     }
 
-    .modal-form-group {
-      margin-bottom: 1rem;
-    }
-
-    .modal-form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--color-teal-dark);
-      margin-bottom: 0.35rem;
-    }
-
-    .modal-form-group input,
-    .modal-form-group textarea {
-      width: 100%;
-      padding: 0.7rem 0.95rem;
-      border: 1px solid #CBD5E1;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.9rem;
-      transition: border-color 0.2s ease;
-    }
-
-    .modal-form-group input:focus,
-    .modal-form-group textarea:focus {
-      outline: none;
-      border-color: var(--color-emerald);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    }
-
     /* --------------------------------------------------------------------------
        RESPONSIVE DESIGN BREAKPOINTS
        -------------------------------------------------------------------------- */
@@ -1015,6 +1339,21 @@
 
       .hero-orb-container {
         width: clamp(260px, 45vw, 360px);
+      }
+
+      .about-narrative-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-stats-strip {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
       }
 
       .why-grid {
@@ -1048,6 +1387,15 @@
         min-height: 440px;
       }
 
+      .form-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .about-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
       .why-features-row {
         flex-direction: column;
         align-items: center;
@@ -1079,16 +1427,16 @@
         <ul class="nav-menu">
           <li class="nav-item"><a href="#home" class="is-active">Home</a></li>
           <li class="nav-item"><a href="#services">Services</a></li>
-          <li class="nav-item"><a href="#why-digileaf">About</a></li>
-          <li class="nav-item"><a href="#contact" data-open-modal="contact">Contact</a></li>
+          <li class="nav-item"><a href="#about">About</a></li>
+          <li class="nav-item"><a href="#contact">Contact</a></li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <button type="button" class="btn-pill-emerald" data-open-modal="contact">
+        <a href="#contact" class="btn-pill-emerald">
           <span>Get Started</span>
           <span class="arrow-icon" aria-hidden="true">&rarr;</span>
-        </button>
+        </a>
 
         <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
           <span></span>
@@ -1145,7 +1493,7 @@
       </div>
     </section>
 
-    <!-- 3. SERVICES SECTION: 3D COVERFLOW CAROUSEL -->
+    <!-- 3. SERVICES SECTION: 3D COVERFLOW CAROUSEL WITH ULTRA-HD IMAGERY -->
     <section class="services-section" id="services" aria-labelledby="services-heading">
       <div class="container">
         <div class="section-header">
@@ -1163,10 +1511,10 @@
           <div class="carousel-stage" id="carousel-stage">
             <div class="carousel-track" id="carousel-track">
 
-              <!-- Card 1: Business Registration -->
+              <!-- Card 1: Business Registration (Ultra-HD Image) -->
               <article class="service-card" data-index="0" data-service-id="registration">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_1_registration.jpg" alt="Business Registration legal documents and official certificate" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_1_registration.jpg" alt="Business Registration legal documents and gold seal certificate" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Legal Building Icon -->
@@ -1177,10 +1525,10 @@
                 </div>
               </article>
 
-              <!-- Card 2: Brand Identity -->
+              <!-- Card 2: Brand Identity (Ultra-HD Image) -->
               <article class="service-card" data-index="1" data-service-id="branding">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_2_branding.jpg" alt="Brand Identity premium notebook and color palette" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_2_branding.jpg" alt="Brand Identity premium notebook, color swatch fan and stationery" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Fountain Pen Icon -->
@@ -1191,10 +1539,10 @@
                 </div>
               </article>
 
-              <!-- Card 3: Digital Marketing (Center Highlighted Card) -->
+              <!-- Card 3: Digital Marketing (Center Highlighted Card, Ultra-HD Image) -->
               <article class="service-card is-active" data-index="2" data-service-id="marketing">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_3_marketing.jpg" alt="Digital Marketing laptop with analytics dashboard and floating social badges" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_3_marketing.jpg" alt="Digital Marketing laptop with analytics dashboard and floating social badges" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Megaphone Icon -->
@@ -1205,10 +1553,10 @@
                 </div>
               </article>
 
-              <!-- Card 4: Websites and Online Presence -->
+              <!-- Card 4: Websites and Online Presence (Ultra-HD Image) -->
               <article class="service-card" data-index="3" data-service-id="websites">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_4_websites.jpg" alt="Websites and Online Presence monitor and mobile interface" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_4_websites.jpg" alt="Websites and Online Presence monitor and mobile interface" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Globe / Web Icon -->
@@ -1219,10 +1567,10 @@
                 </div>
               </article>
 
-              <!-- Card 5: Business Development -->
+              <!-- Card 5: Business Development (Ultra-HD Image) -->
               <article class="service-card" data-index="4" data-service-id="bizdev">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_5_bizdev.jpg" alt="Business Development upward trending green growth arrow" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_5_bizdev.jpg" alt="Business Development upward trending green growth arrow" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Chart / Trending Up Icon -->
@@ -1233,10 +1581,10 @@
                 </div>
               </article>
 
-              <!-- Card 6: Compliance Coordination -->
+              <!-- Card 6: Compliance Coordination (Ultra-HD Image) -->
               <article class="service-card" data-index="5" data-service-id="compliance">
                 <div class="card-artwork-box">
-                  <img src="assets/ref_crops/hd_card_6_compliance.jpg" alt="Compliance Coordination checklist with verified shield" class="card-artwork-img" loading="lazy">
+                  <img src="assets/services/service_6_compliance.jpg" alt="Compliance Coordination checklist with verified shield" class="card-artwork-img" loading="lazy" width="800" height="600">
                 </div>
                 <div class="card-badge-circle" aria-hidden="true">
                   <!-- Shield Check Icon -->
@@ -1267,57 +1615,225 @@
       </div>
     </section>
 
-    <!-- 4. WHY DIGILEAF SECTION ("YOUR SUCCESS IS OUR PRIORITY") -->
-    <section class="why-section" id="why-digileaf" aria-labelledby="why-heading">
-      <div class="why-coast-bg" aria-hidden="true"></div>
+    <!-- 4. ENRICHED ABOUT US SECTION & WHY DIGILEAF -->
+    <section class="about-section" id="about" aria-labelledby="about-heading">
+      <div class="container">
 
-      <div class="container why-grid">
-        <!-- Left Title Column -->
-        <div class="why-title-column">
-          <div class="why-eyebrow">WHY DIGILEAF</div>
-          <h2 class="why-title" id="why-heading">
-            Your Success<br>
-            <span class="why-title-highlight">Is Our Priority</span>
+        <!-- Narrative & Pillars Grid -->
+        <div class="about-narrative-grid">
+          <div>
+            <div class="section-eyebrow">ABOUT DIGILEAF</div>
+            <h2 class="about-lead-title" id="about-heading">
+              Your Growth Partner &amp;<br>
+              <span class="hero-title-highlight">Business Architect</span>
+            </h2>
+            <p class="about-lead-desc">
+              Building a modern business requires more than just registering a company or running ads. It demands an interconnected growth ecosystem. DigiLeaf was founded to eliminate the friction and fragmentation founders face when dealing with separate CA firms, design agencies, ad consultants, and developers.
+            </p>
+            <div class="about-story-quote">
+              &ldquo;We integrate legal incorporation, trademark protection, executive branding, and high-converting technology into one seamless, transparent journey.&rdquo;
+            </div>
+          </div>
+
+          <!-- 4 Pillars of Excellence -->
+          <div class="about-pillars-grid">
+            <div class="about-pillar-card">
+              <span class="pillar-num">01 / SYNERGY</span>
+              <h3 class="pillar-heading">Legal &amp; Tech Synergy</h3>
+              <p class="pillar-body">Direct coordination with licensed CAs and CSs alongside elite visual designers and software engineers.</p>
+            </div>
+            <div class="about-pillar-card">
+              <span class="pillar-num">02 / SPEED</span>
+              <h3 class="pillar-heading">Rapid 7–14 Day Delivery</h3>
+              <p class="pillar-body">Clear milestones, zero bureaucratic delays, and transparent project tracking at every step.</p>
+            </div>
+            <div class="about-pillar-card">
+              <span class="pillar-num">03 / SCALE</span>
+              <h3 class="pillar-heading">Full Growth Architecture</h3>
+              <p class="pillar-body">From official legal documentation to custom websites, lead funnels, and ongoing marketing sprints.</p>
+            </div>
+            <div class="about-pillar-card">
+              <span class="pillar-num">04 / SAFETY</span>
+              <h3 class="pillar-heading">100% Statutory Compliance</h3>
+              <p class="pillar-body">Comprehensive filing calendars and proactive regulatory verification with zero penalty risk.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Metrics Counter Strip -->
+        <div class="about-stats-strip">
+          <div>
+            <div class="stat-number">450+</div>
+            <div class="stat-label">Projects Successfully Delivered</div>
+          </div>
+          <div>
+            <div class="stat-number">99.4%</div>
+            <div class="stat-label">Client Satisfaction Rating</div>
+          </div>
+          <div>
+            <div class="stat-number">7–14d</div>
+            <div class="stat-label">Average Milestone Turnaround</div>
+          </div>
+          <div>
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Verified Statutory Compliance</div>
+          </div>
+        </div>
+
+        <!-- Why DigiLeaf 3 Features Sub-row -->
+        <div class="why-grid">
+          <div>
+            <div class="section-eyebrow">WHY DIGILEAF</div>
+            <h3 class="why-title">
+              Your Success<br>
+              <span class="why-title-highlight">Is Our Priority</span>
+            </h3>
+          </div>
+
+          <div class="why-features-row">
+            <!-- Pillar 1 -->
+            <div class="why-feature-item">
+              <div class="feature-icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 4 9 9 10 1-5 4-9 9-10 1-5-3.5-10-8-10Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12c4 1 8 4 10 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h4 class="feature-title">Creative<br>Approach</h4>
+              <p class="feature-desc">Fresh ideas for<br>your unique goals.</p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="why-feature-item">
+              <div class="feature-icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Zm-3-10l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h4 class="feature-title">Reliable<br>Support</h4>
+              <p class="feature-desc">We're with you,<br>every step of the way.</p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="why-feature-item">
+              <div class="feature-icon-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V11M12 21V7M18 21V3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h4 class="feature-title">Sustainable<br>Growth</h4>
+              <p class="feature-desc">Long-term strategies<br>for lasting success.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. DEDICATED CONTACT US SECTION (EXACT REFERENCE DESIGN) -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="container contact-grid">
+
+        <!-- Left Column: Contact Copy & Info Items -->
+        <div class="contact-left-content">
+          <div class="contact-eyebrow">
+            <span class="contact-eyebrow-dash" aria-hidden="true"></span>
+            <span>GET IN TOUCH</span>
+          </div>
+
+          <h2 class="contact-heading" id="contact-heading">
+            Let's Discuss Your<br>Business Requirements
           </h2>
+
+          <p class="contact-subtitle">
+            Have a project in mind or want to know more about our services? Send us a message and we'll get back to you.
+          </p>
+
+          <div class="contact-info-list">
+            <!-- Email Item -->
+            <div class="contact-info-card">
+              <div class="contact-icon-bubble" aria-hidden="true">
+                <!-- Envelope Icon -->
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z" stroke-linecap="round" stroke-linejoin="round"/><path d="m22 6-10 7L2 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-title">Email</div>
+                <div class="contact-info-value">
+                  <a href="mailto:info@digileaf.com">info@digileaf.com</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location Item -->
+            <div class="contact-info-card">
+              <div class="contact-icon-bubble" aria-hidden="true">
+                <!-- Location Pin Icon -->
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-8-6.5-8-12a8 8 0 0 1 16 0c0 5.5-8 12-8 12Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.5"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-title">Location</div>
+                <div class="contact-info-value">Your City, Country (Placeholder)</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Right 3 Pillars Column -->
-        <div class="why-features-row">
-          <!-- Pillar 1 -->
-          <div class="why-feature-item">
-            <div class="feature-icon-badge" aria-hidden="true">
-              <!-- Leaf Icon -->
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 4 9 9 10 1-5 4-9 9-10 1-5-3.5-10-8-10Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12c4 1 8 4 10 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="feature-title">Creative<br>Approach</h3>
-            <p class="feature-desc">Fresh ideas for<br>your unique goals.</p>
+        <!-- Right Column: Send Us a Message Card -->
+        <div class="contact-form-card">
+          <div class="form-header-row">
+            <h3 class="form-card-title">Send Us a Message</h3>
+            <span class="demo-form-badge">DEMO FORM</span>
           </div>
 
-          <!-- Pillar 2 -->
-          <div class="why-feature-item">
-            <div class="feature-icon-badge" aria-hidden="true">
-              <!-- Shield Checkmark Icon -->
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Zm-3-10l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <form id="contact-page-form">
+            <div class="form-grid-2col">
+              <div class="contact-field-group">
+                <label for="contact-name">Full Name *</label>
+                <input type="text" id="contact-name" required placeholder="Your name">
+              </div>
+              <div class="contact-field-group">
+                <label for="contact-email">Email Address *</label>
+                <input type="email" id="contact-email" required placeholder="you@company.com">
+              </div>
             </div>
-            <h3 class="feature-title">Reliable<br>Support</h3>
-            <p class="feature-desc">We're with you,<br>every step of the way.</p>
-          </div>
 
-          <!-- Pillar 3 -->
-          <div class="why-feature-item">
-            <div class="feature-icon-badge" aria-hidden="true">
-              <!-- Sustainable Growth Bar Chart Icon -->
-              <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V11M12 21V7M18 21V3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="form-grid-2col">
+              <div class="contact-field-group">
+                <label for="contact-company">Company Name</label>
+                <input type="text" id="contact-company" placeholder="Your company name">
+              </div>
+              <div class="contact-field-group">
+                <label for="contact-service">Service of Interest *</label>
+                <select id="contact-service" required>
+                  <option value="" disabled selected>Select a service</option>
+                  <option value="Business Registration">Business Registration (LLP, Pvt Ltd, OPC)</option>
+                  <option value="Brand Identity">Brand Identity &amp; Design</option>
+                  <option value="Digital Marketing">Digital Marketing &amp; Growth</option>
+                  <option value="Websites and Online Presence">Websites and Online Presence</option>
+                  <option value="Business Development">Business Development &amp; Advisory</option>
+                  <option value="Compliance Coordination">Compliance Coordination &amp; Audit</option>
+                </select>
+              </div>
             </div>
-            <h3 class="feature-title">Sustainable<br>Growth</h3>
-            <p class="feature-desc">Long-term strategies<br>for lasting success.</p>
-          </div>
+
+            <div class="contact-field-group">
+              <label for="contact-message">Message *</label>
+              <textarea id="contact-message" rows="4" required placeholder="Tell us about your requirements..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-send-message">
+              <span>Send Message</span>
+              <span class="arrow" aria-hidden="true">&rarr;</span>
+            </button>
+
+            <p class="form-disclaimer-note">
+              Demo prototype form: validates in your browser only and does not submit data to a server.
+            </p>
+
+            <div class="form-success-banner" id="contact-success-banner">
+              &check; Thank you! We received your message and will respond within 2 hours.
+            </div>
+          </form>
         </div>
+
       </div>
     </section>
   </main>
 
-  <!-- 5. DARK TEAL EXECUTIVE FOOTER -->
+  <!-- 6. DARK TEAL EXECUTIVE FOOTER -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top-row">
@@ -1328,14 +1844,14 @@
         <ul class="footer-nav">
           <li><a href="#home">Home</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#why-digileaf">About</a></li>
-          <li><a href="#contact" data-open-modal="contact">Contact</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
 
-        <button type="button" class="btn-pill-emerald" data-open-modal="contact">
+        <a href="#contact" class="btn-pill-emerald">
           <span>Get Started</span>
           <span class="arrow-icon" aria-hidden="true">&rarr;</span>
-        </button>
+        </a>
       </div>
 
       <div class="footer-bottom-row">
@@ -1359,7 +1875,7 @@
     </div>
   </footer>
 
-  <!-- 6. SERVICE DETAIL & CONTACT MODAL -->
+  <!-- 7. SERVICE DETAIL MODAL (WHEN A CARD IS CLICKED) -->
   <div class="modal-backdrop" id="service-modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-header">
@@ -1394,46 +1910,46 @@
           </div>
         </div>
 
-        <!-- Quick Enquiry Form -->
-        <form id="enquiry-form">
-          <input type="hidden" id="form-service-name" value="Digital Marketing">
-          <div class="modal-form-group">
-            <label for="client-name">Your Full Name</label>
-            <input type="text" id="client-name" required placeholder="John Doe">
-          </div>
-          <div class="modal-form-group">
-            <label for="client-email">Email or WhatsApp Number</label>
-            <input type="text" id="client-email" required placeholder="john@company.com / +91 98765 43210">
-          </div>
-          <div class="modal-form-group">
-            <label for="client-notes">Project Requirements (Optional)</label>
-            <textarea id="client-notes" rows="2" placeholder="Tell us about your goals..."></textarea>
-          </div>
-          <button type="submit" class="btn-pill-emerald" style="width:100%; justify-content:center; padding:0.85rem;">
-            <span>Submit Enquiry</span>
-            <span class="arrow-icon" aria-hidden="true">&rarr;</span>
-          </button>
-          <div id="form-feedback" style="display:none; text-align:center; padding-top:0.75rem; color:#15803D; font-weight:700; font-size:0.88rem;">
-            &check; Thank you! Our executive team will reach out within 2 hours.
-          </div>
-        </form>
+        <a href="#contact" class="btn-pill-emerald" id="modal-enquire-cta" style="width:100%; justify-content:center; padding:0.85rem;">
+          <span>Proceed to Enquiry Form</span>
+          <span class="arrow-icon" aria-hidden="true">&rarr;</span>
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT: 3D COVERFLOW ENGINE & MODAL LOGIC -->
+  <!-- JAVASCRIPT: NAVIGATION, 3D COVERFLOW & FORM LOGIC -->
   <script>
     (() => {
       'use strict';
 
-      // 1. Sticky Header On Scroll
+      // 1. Sticky Header & Active Nav Spy
       const header = document.getElementById('site-header');
+      const navLinks = Array.from(document.querySelectorAll('.nav-menu a'));
+      const sections = ['home', 'services', 'about', 'contact'].map(id => document.getElementById(id)).filter(Boolean);
+
       window.addEventListener('scroll', () => {
+        // Sticky Header toggle
         if (window.scrollY > 30) {
           header.classList.add('is-scrolled');
         } else {
           header.classList.remove('is-scrolled');
         }
+
+        // Active link spy
+        let currentSectionId = 'home';
+        const scrollPosition = window.scrollY + 120;
+
+        sections.forEach(sec => {
+          if (sec.offsetTop <= scrollPosition) {
+            currentSectionId = sec.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href')?.replace('#', '');
+          link.classList.toggle('is-active', href === currentSectionId);
+        });
       }, { passive: true });
 
       // 2. Services Data for Modal
@@ -1520,7 +2036,7 @@
       const nextBtn = document.getElementById('carousel-next-btn');
       const totalCards = cards.length;
 
-      let activeIndex = 2; // Default to Digital Marketing (center card in image)
+      let activeIndex = 2; // Default to Digital Marketing (center active card)
 
       function updateCoverflow() {
         const isMobile = window.innerWidth < 768;
@@ -1640,16 +2156,13 @@
       const modalDesc = document.getElementById('modal-service-desc');
       const modalTurn = document.getElementById('modal-turnaround');
       const modalList = document.getElementById('modal-deliverables');
-      const formServiceInput = document.getElementById('form-service-name');
-      const enquiryForm = document.getElementById('enquiry-form');
-      const formFeedback = document.getElementById('form-feedback');
+      const modalEnquireCta = document.getElementById('modal-enquire-cta');
 
       function openServiceModal(index) {
         const data = servicesData[index] || servicesData[2];
         modalTitle.textContent = data.title;
         modalDesc.textContent = data.desc;
         modalTurn.textContent = data.turn;
-        formServiceInput.value = data.title;
 
         modalList.innerHTML = data.deliverables
           .map(item => `<li><span class="check-icon">&#10003;</span> ${item}</li>`)
@@ -1658,6 +2171,17 @@
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+
+        // Select the respective service in the contact form
+        const serviceSelect = document.getElementById('contact-service');
+        if (serviceSelect) {
+          for (let opt of serviceSelect.options) {
+            if (opt.value.toLowerCase().includes(data.title.toLowerCase().split(' ')[0])) {
+              serviceSelect.value = opt.value;
+              break;
+            }
+          }
+        }
       }
 
       function closeModal() {
@@ -1672,30 +2196,57 @@
         if (e.target === modal) closeModal();
       });
 
+      if (modalEnquireCta) {
+        modalEnquireCta.addEventListener('click', () => {
+          closeModal();
+        });
+      }
+
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('is-open')) {
           closeModal();
         }
       });
 
-      // Open Modal buttons
-      document.querySelectorAll('[data-open-modal="contact"]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          openServiceModal(2); // default to digital marketing
-        });
-      });
+      // 5. Contact Form Interaction (from image reference)
+      const contactForm = document.getElementById('contact-page-form');
+      const successBanner = document.getElementById('contact-success-banner');
 
-      // Form submission mock
-      if (enquiryForm) {
-        enquiryForm.addEventListener('submit', (e) => {
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          formFeedback.style.display = 'block';
+          successBanner.style.display = 'block';
+          contactForm.reset();
+
           setTimeout(() => {
-            closeModal();
-            formFeedback.style.display = 'none';
-            enquiryForm.reset();
-          }, 2400);
+            successBanner.style.display = 'none';
+          }, 4500);
+        });
+      }
+
+      // Mobile Menu Toggle
+      const mobileToggle = document.getElementById('mobile-menu-toggle');
+      const primaryNav = document.querySelector('.primary-nav');
+
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+          const isOpen = primaryNav.style.display === 'block';
+          primaryNav.style.display = isOpen ? 'none' : 'block';
+          if (!isOpen) {
+            primaryNav.style.position = 'absolute';
+            primaryNav.style.top = '100%';
+            primaryNav.style.left = '0';
+            primaryNav.style.width = '100%';
+            primaryNav.style.background = '#FFFFFF';
+            primaryNav.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+            primaryNav.style.padding = '1.5rem';
+            const menu = primaryNav.querySelector('.nav-menu');
+            if (menu) {
+              menu.style.display = 'flex';
+              menu.style.flexDirection = 'column';
+              menu.style.gap = '1rem';
+            }
+          }
         });
       }
 
